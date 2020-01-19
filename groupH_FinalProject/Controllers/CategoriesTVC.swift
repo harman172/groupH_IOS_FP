@@ -115,17 +115,34 @@ class CategoriesTVC: UITableViewController {
             let textField = alertController.textFields![0]
             let folderName = textField.text!
             
-            let newFolder = NSEntityDescription.insertNewObject(forEntityName: "Folders", into: self.context!)
-            newFolder.setValue(folderName, forKey: "name")
-            newFolder.setValue([], forKey: "notes")
-            
-            //save
-            do{
-                try self.context?.save()
-                print(newFolder," is saved")
-            }catch{
-                print("Error1...\(error)")
+            var alreadyExists = false
+            if self.foldernames.count > 0{
+                for folder in self.foldernames{
+                    if folder == folderName{
+                        alreadyExists = true
+                    }
+                }
             }
+            
+            if !alreadyExists{
+                let newFolder = NSEntityDescription.insertNewObject(forEntityName: "Folders", into: self.context!)
+                newFolder.setValue(folderName, forKey: "name")
+                newFolder.setValue([], forKey: "notes")
+                
+                //save
+                do{
+                    try self.context?.save()
+                    print(newFolder," is saved")
+                    self.loadData()
+    //                self.tableView.reloadData()
+                }catch{
+                    print("Error1...\(error)")
+                }
+            } else{
+                print("Already present")
+                alreadyExists = false
+            }
+            
         }
         addItemAction.setValue(UIColor.black, forKey: "titleTextColor")
                 
@@ -147,21 +164,61 @@ class CategoriesTVC: UITableViewController {
         // we find our data
         do{
             let results = try context?.fetch(request)
-            print("number of records")
-            print(results?.count)
+            print("number of records...")
+            print(results!.count)
             
             if results!.count > 0{
+                
+                var alreadyExists = false
                 for r in results as! [NSManagedObject]{
-                    foldernames.append(r.value(forKey: "name") as! String)
+
+                    print("array count..\(foldernames.count)")
+
+                    let name = r.value(forKey: "name") as! String
+                    for folders in foldernames{
+                        if name == folders{
+                            alreadyExists = true
+                            break
+                        }
+                    }
+                    if !alreadyExists{
+                        foldernames.append(name)
+                    } else{
+//                        okAlert(title: "Error", message: "\(name) folder already exists.")
+                        alreadyExists = false
+                    }
+                    
                     print("-----")
                     print(r.value(forKey: "name"))
                     print(r.value(forKey: "notes"))
                     print("-----")
+//                    foldernames.append(r.value(forKey: "name") as! String)
+                    print("array count..\(foldernames.count)")
+
+
+//                    context!.delete(r)
+                    
                 }
+                
+//                do{
+//                    try self.context?.save()
+//                }catch{
+//                    print("Error3...\(error)")
+//                }
             }
+            tableView.reloadData()
         } catch{
             print("Error2...\(error)")
         }
     }
+    
+    func okAlert(title: String, message: String){
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        okAction.setValue(UIColor.brown, forKey: "titleTextColor")
+        
+        alertController.addAction(okAction)
+        self.present(alertController, animated: false, completion: nil)
 
+    }
 }
