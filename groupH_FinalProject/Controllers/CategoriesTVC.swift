@@ -12,7 +12,7 @@ import CoreData
 class CategoriesTVC: UITableViewController {
 
     var context: NSManagedObjectContext?
-    var foldernames = [String]()
+    var folders: [NSManagedObject]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,7 @@ class CategoriesTVC: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return foldernames.count
+        return folders?.count ?? 0
     }
 
     
@@ -45,7 +45,7 @@ class CategoriesTVC: UITableViewController {
         // Configure the cell...
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "folderCell"){
-            cell.textLabel?.text = foldernames[indexPath.row]
+            cell.textLabel?.text = folders![indexPath.row].value(forKey: "name") as! String
             return cell
         }
 
@@ -115,34 +115,33 @@ class CategoriesTVC: UITableViewController {
             let textField = alertController.textFields![0]
             let folderName = textField.text!
             
-            var alreadyExists = false
-            if self.foldernames.count > 0{
-                for folder in self.foldernames{
-                    if folder == folderName{
-                        alreadyExists = true
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Folders")
+            request.returnsObjectsAsFaults = false
+            
+            do{
+                let results = try self.context!.fetch(request)
+                
+                var alreadyExists = false
+                if results.count > 0{
+                    for result in results as! [NSManagedObject]{
+                        if folderName == result.value(forKey: "name") as! String{
+                            alreadyExists = true
+                            break
+                        }
                     }
                 }
-            }
-            
-            if !alreadyExists{
-                let newFolder = NSEntityDescription.insertNewObject(forEntityName: "Folders", into: self.context!)
-                newFolder.setValue(folderName, forKey: "name")
-                newFolder.setValue([], forKey: "notes")
                 
-                //save
-                do{
-                    try self.context?.save()
-                    print(newFolder," is saved")
-                    self.loadData()
-    //                self.tableView.reloadData()
-                }catch{
-                    print("Error1...\(error)")
+                if !alreadyExists{
+                    self.addData(name: folderName, notes: [])
+                } else{
+                    print("Folder Already exists")
                 }
-            } else{
-                print("Already present")
-                alreadyExists = false
+            }catch{
+                print(error)
             }
             
+            self.loadData()
+            self.tableView.reloadData()
         }
         addItemAction.setValue(UIColor.black, forKey: "titleTextColor")
                 
@@ -164,51 +163,27 @@ class CategoriesTVC: UITableViewController {
         // we find our data
         do{
             let results = try context?.fetch(request)
-            print("number of records...")
-            print(results!.count)
             
-            if results!.count > 0{
-                
-                var alreadyExists = false
-                for r in results as! [NSManagedObject]{
-
-                    print("array count..\(foldernames.count)")
-
-                    let name = r.value(forKey: "name") as! String
-                    for folders in foldernames{
-                        if name == folders{
-                            alreadyExists = true
-                            break
-                        }
-                    }
-                    if !alreadyExists{
-                        foldernames.append(name)
-                    } else{
-//                        okAlert(title: "Error", message: "\(name) folder already exists.")
-                        alreadyExists = false
-                    }
-                    
-                    print("-----")
-                    print(r.value(forKey: "name"))
-                    print(r.value(forKey: "notes"))
-                    print("-----")
-//                    foldernames.append(r.value(forKey: "name") as! String)
-                    print("array count..\(foldernames.count)")
-
-
-//                    context!.delete(r)
-                    
-                }
-                
-//                do{
-//                    try self.context?.save()
-//                }catch{
-//                    print("Error3...\(error)")
-//                }
+            if results is [NSManagedObject]{
+                folders = results as! [NSManagedObject]
             }
-            tableView.reloadData()
         } catch{
             print("Error2...\(error)")
+        }
+    }
+    
+    func addData(name: String, notes: [NSManagedObject]){
+        let newFolder = NSEntityDescription.insertNewObject(forEntityName: "Folders", into: context!)
+        newFolder.setValue(name, forKey: "name")
+        newFolder.setValue(notes, forKey: "notes")
+        saveData()
+    }
+    
+    func saveData(){
+        do{
+           try context!.save()
+        }catch{
+            print(error)
         }
     }
     
