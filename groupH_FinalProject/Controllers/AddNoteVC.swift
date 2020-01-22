@@ -62,6 +62,8 @@ class AddNoteVC: UIViewController {
         newNote.setValue(txtTitle.text!, forKey: "title")
         newNote.setValue(txtDescription.text!, forKey: "descp")
         newNote.setValue(categoryName!, forKey: "category")
+        newNote.setValue(Date(), forKey: "dateTime")
+        
         saveData()
         
     }
