@@ -45,7 +45,7 @@ class CategoriesTVC: UITableViewController {
         // Configure the cell...
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "folderCell"){
-            cell.textLabel?.text = folders![indexPath.row].value(forKey: "name") as! String
+            cell.textLabel?.text = folders![indexPath.row].value(forKey: "catname") as! String
             return cell
         }
 
@@ -89,16 +89,6 @@ class CategoriesTVC: UITableViewController {
         return true
     }
     */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     
     @IBAction func addNewCategory(_ sender: UIBarButtonItem) {
@@ -115,7 +105,7 @@ class CategoriesTVC: UITableViewController {
             let textField = alertController.textFields![0]
             let folderName = textField.text!
             
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Folders")
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Categories")
             request.returnsObjectsAsFaults = false
             
             do{
@@ -124,7 +114,7 @@ class CategoriesTVC: UITableViewController {
                 var alreadyExists = false
                 if results.count > 0{
                     for result in results as! [NSManagedObject]{
-                        if folderName == result.value(forKey: "name") as! String{
+                        if folderName == result.value(forKey: "catname") as! String{
                             alreadyExists = true
                             break
                         }
@@ -132,7 +122,7 @@ class CategoriesTVC: UITableViewController {
                 }
                 
                 if !alreadyExists{
-                    self.addData(name: folderName, notes: [])
+                    self.addData(name: folderName)
                 } else{
                     print("Folder Already exists")
                 }
@@ -157,7 +147,7 @@ class CategoriesTVC: UITableViewController {
     }
 
     func loadData(){
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Folders")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Categories")
         request.returnsObjectsAsFaults = false
         
         // we find our data
@@ -166,16 +156,16 @@ class CategoriesTVC: UITableViewController {
             
             if results is [NSManagedObject]{
                 folders = results as! [NSManagedObject]
+                print(results)
             }
         } catch{
             print("Error2...\(error)")
         }
     }
     
-    func addData(name: String, notes: [NSManagedObject]){
-        let newFolder = NSEntityDescription.insertNewObject(forEntityName: "Folders", into: context!)
-        newFolder.setValue(name, forKey: "name")
-        newFolder.setValue(notes, forKey: "notes")
+    func addData(name: String){
+        let newFolder = NSEntityDescription.insertNewObject(forEntityName: "Categories", into: context!)
+        newFolder.setValue(name, forKey: "catname")
         saveData()
     }
     
@@ -196,4 +186,20 @@ class CategoriesTVC: UITableViewController {
         self.present(alertController, animated: false, completion: nil)
 
     }
+    
+    
+   // MARK: - Navigation
+
+   // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    // Get the new view controller using segue.destination.
+    // Pass the selected object to the new view controller.
+        
+        if let destination = segue.destination as? NotesTVC{
+            destination.categoryName = (sender as! UITableViewCell).textLabel?.text
+            
+        }
+
+    }
+       
 }

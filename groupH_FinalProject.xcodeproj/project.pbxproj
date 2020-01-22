@@ -15,6 +15,8 @@
 		B5781D2623D3CB5D00AEAC0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5781D2523D3CB5D00AEAC0C /* Assets.xcassets */; };
 		B5781D2923D3CB5D00AEAC0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5781D2723D3CB5D00AEAC0C /* LaunchScreen.storyboard */; };
 		B5781D3223D3CD6500AEAC0C /* CategoriesTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5781D3123D3CD6500AEAC0C /* CategoriesTVC.swift */; };
+		B5FD11D223D7C3EF00D853A6 /* NotesTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FD11D123D7C3EF00D853A6 /* NotesTVC.swift */; };
+		B5FD11D423D7C40B00D853A6 /* AddNoteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FD11D323D7C40B00D853A6 /* AddNoteVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		B5781D2823D3CB5D00AEAC0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B5781D2A23D3CB5D00AEAC0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5781D3123D3CD6500AEAC0C /* CategoriesTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesTVC.swift; sourceTree = "<group>"; };
+		B5FD11D123D7C3EF00D853A6 /* NotesTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTVC.swift; sourceTree = "<group>"; };
+		B5FD11D323D7C40B00D853A6 /* AddNoteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,8 @@
 			isa = PBXGroup;
 			children = (
 				B5781D3123D3CD6500AEAC0C /* CategoriesTVC.swift */,
+				B5FD11D123D7C3EF00D853A6 /* NotesTVC.swift */,
+				B5FD11D323D7C40B00D853A6 /* AddNoteVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -155,8 +161,10 @@
 				B5781D1E23D3CB5B00AEAC0C /* ViewController.swift in Sources */,
 				B5781D3223D3CD6500AEAC0C /* CategoriesTVC.swift in Sources */,
 				B5781D1A23D3CB5B00AEAC0C /* AppDelegate.swift in Sources */,
+				B5FD11D223D7C3EF00D853A6 /* NotesTVC.swift in Sources */,
 				B5781D2423D3CB5B00AEAC0C /* groupH_FinalProject.xcdatamodeld in Sources */,
 				B5781D1C23D3CB5B00AEAC0C /* SceneDelegate.swift in Sources */,
+				B5FD11D423D7C40B00D853A6 /* AddNoteVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
