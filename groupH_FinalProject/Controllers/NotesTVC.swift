@@ -102,7 +102,23 @@ class NotesTVC: UITableViewController {
         if let destination = segue.destination as? AddNoteVC{
             destination.categoryName = self.categoryName
             
+            if let noteCell = sender as? NotesCell{
+                // old note
+                destination.isNewNote = false
+                destination.noteTitle = noteCell.labelTitle.text
+                
+            }
+            
+            if let btn = sender as? UIBarButtonItem{
+                // new note
+                destination.isNewNote = true
+            }
+            
+            
+            
         }
+        
+        
 
     }
     
