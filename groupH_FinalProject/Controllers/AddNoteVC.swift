@@ -267,6 +267,8 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     
     
+    
+    
     func updateCatagoryList(){
         
         var catagoryPresent = false

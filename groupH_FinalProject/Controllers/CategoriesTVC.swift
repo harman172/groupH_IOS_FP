@@ -58,41 +58,78 @@ class CategoriesTVC: UITableViewController {
     }
     
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
+    
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            
+            
+            // to remove all note of that catagory from core data
+            DeleteNotesForCatagory(folders![indexPath.row].value(forKey: "catname") as! String)
+            
+            // to remove catogory
+            self.context!.delete(self.folders![indexPath.row])
+            self.folders?.remove(at: indexPath.row)
+            
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
+            saveData()
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
-    /*
+    
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+        
+        let fromN = folders![fromIndexPath.row]
+        let toN = folders![to.row]
+               
+        folders![fromIndexPath.row] = toN
+        folders![to.row] = fromN
+        saveData()
 
     }
-    */
+    
 
-    /*
+    
     // Override to support conditional rearranging of the table view.
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the item to be re-orderable.
         return true
     }
-    */
     
+    
+    func DeleteNotesForCatagory(_ catagoryName: String) {
+        
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Notes")
+        request.predicate = NSPredicate(format: "category = %@", catagoryName)
+        
+        do{
+            let results = try context!.fetch(request) as! [NSManagedObject]
+                if results.count > 0{
+                    
+                    for r in results{
+                        context?.delete(r)
+                    }
+                    saveData()
+                }
+            
+        }catch{
+            print(error)
+        }
+    }
     
     @IBAction func addNewCategory(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: "New Folder", message: "Enter new folder", preferredStyle: .alert)
