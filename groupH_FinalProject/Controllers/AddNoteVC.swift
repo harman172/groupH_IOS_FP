@@ -190,8 +190,10 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
                 
                 if !alreadyExists{
                     self.addData()
+                    isNewNote = false
                 } else{
                     print("Note Already exists")
+                    isNewNote = true
                 }
             }catch{
                 print(error)
@@ -210,6 +212,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
         if isNewNote{
         newNote = NSEntityDescription.insertNewObject(forEntityName: "Notes", into: context!)
+            
         }
         
         newNote!.setValue(txtTitle.text!, forKey: "title")
@@ -241,9 +244,19 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
        
         
         saveData()
-        print("note saved successfullys")
+        
+        
+        okAlert(isNewNote ? "Note Saved" : "Note Updated")
     }
     
+    
+    func okAlert(_ msg: String){
+        
+        let AC = UIAlertController(title: msg, message: nil, preferredStyle: .alert)
+        AC.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+        self.present(AC, animated: true)
+        
+    }
     
     func saveData(){
         do{
