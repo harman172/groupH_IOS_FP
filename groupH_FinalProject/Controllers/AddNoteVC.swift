@@ -8,14 +8,27 @@
 
 import UIKit
 import CoreData
+import AVFoundation
+
+
+
 
 class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
 
+    @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var txtTitle: UITextField!
+    @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var txtDescription: UITextView!
     
     @IBOutlet weak var noteImageView: UIImageView!
     
+    
+    var isPlaying = false
+    var isRecording = false
+    var recordingSession: AVAudioSession!
+    var audioRecorder:AVAudioRecorder!
+    var audioPlayer:AVAudioPlayer!
+    var records = 0
     
     var context: NSManagedObjectContext?
     var categoryName: String?
@@ -25,32 +38,37 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        recordButton.layer.cornerRadius = 30
+        playButton.layer.cornerRadius = 30
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         context = appDelegate.persistentContainer.viewContext
         if !isNewNote{
-            
+            playButton.isHidden = false
             showClickedNoteData(noteTitle!)
             // show all data to user
             
-            
+            recordingSession = AVAudioSession.sharedInstance()
+        }else{
+            playButton.isHidden = true
         }
-        //txtTitle.text = ""
         
-        noteImageView.image = UIImage(contentsOfFile: getImageFilePath())
-        print(categoryName!)
+        
+        
 
         // Do any additional setup after loading the view.
         
         var tapG = UITapGestureRecognizer(target: self, action: #selector(choosePhoto))
-        
         noteImageView.addGestureRecognizer(tapG)
         
         
     }
     
+    
+    
     func showClickedNoteData(_ title: String){
-        
+        txtTitle.isEnabled = false
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Notes")
         request.predicate = NSPredicate(format: "title = %@", title)
         
@@ -61,9 +79,11 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             txtTitle.text = noteData.value(forKey: "title") as! String
             txtDescription.text = noteData.value(forKey: "descp") as! String
             
-            let imagePath = noteData.value(forKey: "image") as! String
+            //let imagePath = noteData.value(forKey: "image") as! String
             
-            noteImageView.image = UIImage(contentsOfFile: imagePath)
+            noteImageView.image = UIImage(contentsOfFile: getFilePath("\(txtTitle.text)_img.txt"))
+            
+            
             
         }catch{
             print("unable to fech note-data")
@@ -72,7 +92,79 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
     }
     
+    //MARK: Record and Play audio
     
+    @IBAction func recordButtonPressed(_ sender: UIButton) {
+        print("1")
+        
+        if !isRecording {
+            playButton.isHidden = true
+            recordButton.backgroundColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+            
+            if audioRecorder == nil {
+                       print("3")
+                       //self.records += 1
+                   
+                let url = URL(fileURLWithPath: getFilePath("\(txtTitle.text)_aud.m4a"))
+                       let settings = [AVFormatIDKey : kAudioFormatAppleLossless , AVEncoderAudioQualityKey : AVAudioQuality.high.rawValue , AVEncoderBitRateKey : 320000 , AVNumberOfChannelsKey : 1 , AVSampleRateKey : 44100] as [String : Any]
+                       
+                       do {
+                        print("4")
+                         audioRecorder = try AVAudioRecorder(url: url, settings: settings)
+                           audioRecorder?.delegate = self
+                           audioRecorder?.record()
+                        isRecording = true
+                       } catch  {
+                        print("4 - error")
+                           print(error)
+                       }
+                     
+                   }
+            
+        }
+        
+        else{
+            
+            print("stop called")
+            audioRecorder?.stop()
+            audioRecorder = nil
+            recordButton.backgroundColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
+            isRecording = false
+            playButton.isHidden = false
+        }
+     
+    }
+    
+    @IBAction func playButtonPressed(_ sender: UIButton) {
+        print("play btn detected")
+        
+        if !isPlaying{
+        
+        do {
+            
+            let url = URL(fileURLWithPath: getFilePath("\(txtTitle.text)_aud.m4a"))
+            print("playing")
+           audioPlayer =  try AVAudioPlayer(contentsOf: url)
+            audioPlayer.play()
+            playButton.setImage(UIImage(systemName: "stop.fill"), for: .normal)
+            isPlaying = true
+        } catch  {
+            
+            print("error in playing")
+            print(error)
+            }
+        }else{
+            
+            audioPlayer.stop()
+            playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
+            isPlaying = false
+            
+            }
+        
+        
+        
+        
+    }
     
     @IBAction func btnSave(_ sender: UIButton) {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Notes")
@@ -113,7 +205,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         // save image to file
         saveImageToFile()
         
-        newNote.setValue(getImageFilePath(), forKey: "image")
+        newNote.setValue(getFilePath("\(txtTitle.text)_img.txt"), forKey: "image")
         
         saveData()
         print("note saved successfullys")
@@ -159,7 +251,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     */
     // MARK: - file functions
-    func getImageFilePath()->String{
+    func getFilePath(_ fileName: String)->String{
            
            let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
            
@@ -168,7 +260,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
                
                let documentDirectory = documentPath[0]
                
-            let filePath = documentDirectory.appending("\(txtTitle.text)_img.txt")
+            let filePath = documentDirectory.appending(fileName)
                
                return filePath
                
@@ -186,7 +278,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
         let imageData = myimage?.pngData()
         
-        let url = URL(fileURLWithPath: getImageFilePath())
+        let url = URL(fileURLWithPath: getFilePath("\(txtTitle.text)_img.txt"))
         
         // write to path
         do{
@@ -308,4 +400,19 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
                print("Error2...\(error)")
            }
        }
+}
+extension AddNoteVC: AVAudioRecorderDelegate {
+    
+    func path() -> URL {
+        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+               let docDirectory = path[0]
+               
+               return docDirectory
+        
+        
+        
+    }
+    
+    
+    
 }
