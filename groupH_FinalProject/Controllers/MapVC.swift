@@ -27,7 +27,7 @@ class MapVC: UIViewController , MKMapViewDelegate, CLLocationManagerDelegate  {
         super.viewDidLoad()
         
         mapView.delegate = self
-        
+       
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
@@ -52,7 +52,8 @@ class MapVC: UIViewController , MKMapViewDelegate, CLLocationManagerDelegate  {
         let dest = CLLocationCoordinate2D(latitude: segueLatitude, longitude: segueLongitude)
         
         
-      getRoute(destination: dest)
+//      getRoute(destination: dest)
+        getDirection(dest: dest)
       
     }
     
@@ -151,6 +152,23 @@ class MapVC: UIViewController , MKMapViewDelegate, CLLocationManagerDelegate  {
         
         
     }
+    
+    func getDirection(dest: CLLocationCoordinate2D){
+        
+        let source = MKMapItem(placemark:MKPlacemark(coordinate: mapView.userLocation.coordinate))
+        
+        let dest = MKMapItem(placemark: MKPlacemark(coordinate: dest))
+        
+        MKMapItem.openMaps(with: [source , dest], launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving ])
+        
+        
+        
+    }
+    
+    
+    
+    
+    
     
     
     

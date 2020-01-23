@@ -270,7 +270,6 @@
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oHk-jt-vPe">
                                 <rect key="frame" x="344" y="617" width="60" height="60"/>
-                                <color key="backgroundColor" red="0.72550016640000003" green="0.72547239070000002" blue="0.72549122570000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="0MB-RZ-XnL"/>
                                     <constraint firstAttribute="width" constant="60" id="o7n-k9-fIA"/>
