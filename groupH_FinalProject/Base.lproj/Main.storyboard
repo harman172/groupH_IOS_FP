@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KmL-7c-8aU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KmL-7c-8aU">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -42,14 +42,17 @@
                             <outlet property="delegate" destination="kC7-nD-Z5y" id="gyV-Wm-dxt"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Categories" id="eqb-74-5Xe">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus.circle.fill" catalog="system" id="eCz-aJ-KSh">
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="HvB-J7-2fr"/>
+                        <barButtonItem title="Item" image="plus.circle.fill" catalog="system" id="eCz-aJ-KSh">
                             <color key="tintColor" red="0.53333333329999999" green="0.27058823529999998" blue="0.1960784314" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <connections>
                                 <action selector="addNewCategory:" destination="kC7-nD-Z5y" id="Tyx-Yh-0xh"/>
                             </connections>
                         </barButtonItem>
-                    </navigationItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="Categories" id="eqb-74-5Xe"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Bz-Ei-3sN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -129,14 +132,17 @@
                             <outlet property="delegate" destination="g2G-Vw-fG7" id="0oH-aM-URp"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Notes" id="Tnj-1B-9r1">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus.circle.fill" catalog="system" id="PvS-ry-bz7">
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="4eP-7r-HOX"/>
+                        <barButtonItem title="Item" image="plus.circle.fill" catalog="system" id="PvS-ry-bz7">
                             <color key="tintColor" red="0.53333333329999999" green="0.27058823529999998" blue="0.1960784314" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <connections>
                                 <segue destination="2sd-JK-n0Q" kind="show" id="XLh-hs-geV"/>
                             </connections>
                         </barButtonItem>
-                    </navigationItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="Notes" id="Tnj-1B-9r1"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="965-Jd-XBe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -238,11 +244,15 @@
         <!--Navigation Controller-->
         <scene sceneID="K2Y-k8-sNO">
             <objects>
-                <navigationController id="KmL-7c-8aU" sceneMemberID="viewController">
+                <navigationController toolbarHidden="NO" id="KmL-7c-8aU" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5tZ-dp-OEY">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="QBe-86-e7l">
+                        <rect key="frame" x="0.0" y="692" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="kC7-nD-Z5y" kind="relationship" relationship="rootViewController" id="WMb-Dp-riW"/>
                     </connections>
