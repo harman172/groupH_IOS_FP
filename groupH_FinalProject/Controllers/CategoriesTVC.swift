@@ -73,7 +73,7 @@ class CategoriesTVC: UITableViewController {
             
             
             // to remove all note of that catagory from core data
-            DeleteNotesForCatagory(folders![indexPath.row].value(forKey: "catname") as! String)
+            deleteNotesFromCategory(folders![indexPath.row].value(forKey: "catname") as! String)
             
             // to remove catogory
             self.context!.delete(self.folders![indexPath.row])
@@ -88,7 +88,7 @@ class CategoriesTVC: UITableViewController {
     }
     
 
-    
+    /*
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
         
@@ -106,11 +106,11 @@ class CategoriesTVC: UITableViewController {
     // Override to support conditional rearranging of the table view.
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the item to be re-orderable.
-        return true
+        return false
     }
     
-    
-    func DeleteNotesForCatagory(_ catagoryName: String) {
+    */
+    func deleteNotesFromCategory(_ catagoryName: String) {
         
         
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Notes")

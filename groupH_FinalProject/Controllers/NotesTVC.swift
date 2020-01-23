@@ -76,12 +76,13 @@ class NotesTVC: UITableViewController {
             self.notes?.remove(at: indexPath.row)
             saveData()
             tableView.deleteRows(at: [indexPath], with: .fade)
+            
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
     
-
+/*
     
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
@@ -104,7 +105,7 @@ class NotesTVC: UITableViewController {
         return true
     }
     
-
+*/
     
     // MARK: - Navigation
 
@@ -126,12 +127,7 @@ class NotesTVC: UITableViewController {
                 // new note
                 destination.isNewNote = true
             }
-            
-            
-            
         }
-        
-        
 
     }
     
@@ -164,8 +160,6 @@ class NotesTVC: UITableViewController {
                print(error)
            }
        }
-    
-    
     
     override func viewWillAppear(_ animated: Bool) {
         loadData()

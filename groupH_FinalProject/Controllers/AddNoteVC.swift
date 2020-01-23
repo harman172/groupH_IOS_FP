@@ -33,8 +33,8 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     var records = 0
     
     var context: NSManagedObjectContext?
+    
     var categoryName: String?
-
     var isNewNote = true
     var noteTitle: String?
 
@@ -47,6 +47,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         context = appDelegate.persistentContainer.viewContext
+        
         if !isNewNote{
             playButton.isHidden = false
             showClickedNoteData(noteTitle!)
@@ -85,8 +86,6 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             //let imagePath = noteData.value(forKey: "image") as! String
             
             noteImageView.image = UIImage(contentsOfFile: getFilePath("\(txtTitle.text)_img.txt"))
-            
-            
             
         }catch{
             print("unable to fech note-data")
@@ -147,7 +146,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             
             let url = URL(fileURLWithPath: getFilePath("\(txtTitle.text)_aud.m4a"))
             print("playing")
-           audioPlayer =  try AVAudioPlayer(contentsOf: url)
+            audioPlayer =  try AVAudioPlayer(contentsOf: url)
             audioPlayer.play()
             playButton.setImage(UIImage(systemName: "stop.fill"), for: .normal)
             isPlaying = true
@@ -173,7 +172,6 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
         if isNewNote{
             
-
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Notes")
             do{
                 let results = try self.context!.fetch(request)
@@ -226,26 +224,11 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         newNote!.setValue(txtTitle.text!, forKey: "title")
         newNote!.setValue(txtDescription.text!, forKey: "descp")
         newNote!.setValue(categoryName!, forKey: "category")
-        
-       
-            
-        
         let createdDate =  isNewNote ? Date() : (newNote?.value(forKey: "dateTime")! as! Date)
-    
-            
-        
-        
-        
         newNote!.setValue(createdDate, forKey: "dateTime")
-        
-        
         newNote!.setValue(catagoryTextField.text!, forKey: "category")
         
         updateCatagoryList()
-        
-        
-        
-        
         // save image to file
         saveImageToFile()
         
@@ -290,7 +273,10 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             for r in results{
                 
                 if catagoryTextField.text! == (r.value(forKey: "catname") as! String) {
-                    catagoryPresent = true; break }
+                    catagoryPresent = true;
+                    break
+                    
+                }
                 
             }
             
@@ -345,7 +331,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
            
            let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
            
-           
+        
            if documentPath.count > 0 {
                
                let documentDirectory = documentPath[0]
@@ -355,8 +341,6 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
                return filePath
                
            }
-           
-           
            return ""
        }
     
@@ -385,9 +369,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     // MARK: - Image functions
     
     @objc func choosePhoto(){
-        
-        
-        
+
         let imagePicker = UIImagePickerController()
                imagePicker.delegate = self
                
@@ -447,9 +429,6 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         noteImageView.image = image
         
         //old note
-        
-        
-    
         
         picker.dismiss(animated: true, completion: nil)
         
