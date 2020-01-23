@@ -8,19 +8,24 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 
-class MapVC: UIViewController , MKMapViewDelegate  {
+class MapVC: UIViewController , MKMapViewDelegate, CLLocationManagerDelegate  {
 
     @IBOutlet weak var navigationButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
+    
+    var locationManager = CLLocationManager()
+    
     override func viewDidLoad() {
-        
+        super.viewDidLoad()
         
         mapView.delegate = self
         
-        super.viewDidLoad()
-
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
         
     }
     
@@ -29,16 +34,6 @@ class MapVC: UIViewController , MKMapViewDelegate  {
     
         // get the route
       
-    }
-    
-    
-    func getDirections(){
-        
-        
-        
-        
-        
-    
     }
     
     

@@ -49,7 +49,7 @@ class NotesTVC: UITableViewController {
         // Configure the cell...
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell") as! NotesCell
-            print(notes![indexPath.row].value(forKey: "title") as! String)
+//            print(notes![indexPath.row].value(forKey: "title") as! String)
         cell.setData(note: notes![indexPath.row])
         return cell
         

@@ -9,11 +9,12 @@
 import UIKit
 import CoreData
 import AVFoundation
+import CoreLocation
 
 
 
 
-class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate{
 
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var txtTitle: UITextField!
@@ -38,6 +39,9 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     var isNewNote = true
     var noteTitle: String?
 
+    var locationManager = CLLocationManager()
+    var currentLocation = CLLocationCoordinate2D()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,20 +62,25 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             playButton.isHidden = true
         }
         
-        
-        
 
         // Do any additional setup after loading the view.
         
-        var tapG = UITapGestureRecognizer(target: self, action: #selector(choosePhoto))
+        let tapG = UITapGestureRecognizer(target: self, action: #selector(choosePhoto))
         noteImageView.addGestureRecognizer(tapG)
         
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
         
     }
     
-    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        currentLocation = manager.location!.coordinate
+    }
     
     func showClickedNoteData(_ title: String){
+        
         txtTitle.isEnabled = false
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Notes")
         request.predicate = NSPredicate(format: "title = %@", title)
@@ -84,7 +93,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             txtDescription.text = newNote!.value(forKey: "descp") as! String
             
             //let imagePath = noteData.value(forKey: "image") as! String
-            
+            print("\(newNote!.value(forKey: "lat") as! Double)")
             noteImageView.image = UIImage(contentsOfFile: getFilePath("\(txtTitle.text)_img.txt"))
             
         }catch{
@@ -227,6 +236,10 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         let createdDate =  isNewNote ? Date() : (newNote?.value(forKey: "dateTime")! as! Date)
         newNote!.setValue(createdDate, forKey: "dateTime")
         newNote!.setValue(catagoryTextField.text!, forKey: "category")
+        let lat = isNewNote ? currentLocation.latitude : newNote?.value(forKey: "lat") as! Double
+        newNote?.setValue(lat, forKey: "lat")
+        let long = isNewNote ? currentLocation.longitude : newNote?.value(forKey: "long") as! Double
+        newNote?.setValue(long, forKey: "long")
         
         updateCatagoryList()
         // save image to file
@@ -453,22 +466,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     */
 
-    
-    func loadData(){
-           let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Folders")
-           request.returnsObjectsAsFaults = false
-           
-           // we find our data
-           do{
-               let results = try context?.fetch(request)
-               
-               if results is [NSManagedObject]{
-                   print(results)
-               }
-           } catch{
-               print("Error2...\(error)")
-           }
-       }
+
 }
 extension AddNoteVC: AVAudioRecorderDelegate {
     
