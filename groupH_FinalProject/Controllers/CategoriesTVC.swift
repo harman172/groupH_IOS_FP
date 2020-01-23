@@ -28,6 +28,9 @@ class CategoriesTVC: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        loadData()
+    }
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -156,7 +159,7 @@ class CategoriesTVC: UITableViewController {
             
             if results is [NSManagedObject]{
                 folders = results as! [NSManagedObject]
-                print(results)
+                tableView.reloadData()
             }
         } catch{
             print("Error2...\(error)")

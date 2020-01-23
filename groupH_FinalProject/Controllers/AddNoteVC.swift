@@ -20,8 +20,10 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var txtDescription: UITextView!
     
+    @IBOutlet weak var catagoryTextField: UITextField!
     @IBOutlet weak var noteImageView: UIImageView!
     
+    var newNote: NSManagedObject?
     
     var isPlaying = false
     var isRecording = false
@@ -39,6 +41,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        catagoryTextField.text = categoryName!
         recordButton.layer.cornerRadius = 30
         playButton.layer.cornerRadius = 30
         
@@ -74,10 +77,10 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
         do{
             let results = try context!.fetch(request)
-            let noteData = results[0] as! NSManagedObject
+            newNote = results[0] as! NSManagedObject
             
-            txtTitle.text = noteData.value(forKey: "title") as! String
-            txtDescription.text = noteData.value(forKey: "descp") as! String
+            txtTitle.text = newNote!.value(forKey: "title") as! String
+            txtDescription.text = newNote!.value(forKey: "descp") as! String
             
             //let imagePath = noteData.value(forKey: "image") as! String
             
@@ -167,45 +170,75 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     
     @IBAction func btnSave(_ sender: UIButton) {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Notes")
-
-        do{
-            let results = try self.context!.fetch(request)
+        
+        if isNewNote{
             
-            var alreadyExists = false
-            if results.count > 0{
-                for result in results as! [NSManagedObject]{
-                    if txtTitle.text! == result.value(forKey: "title") as! String{
-                        alreadyExists = true
-                        break
+
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Notes")
+            do{
+                let results = try self.context!.fetch(request)
+                
+                var alreadyExists = false
+                if results.count > 0{
+                    for result in results as! [NSManagedObject]{
+                        if txtTitle.text! == result.value(forKey: "title") as! String{
+                            alreadyExists = true
+                            break
+                        }
                     }
                 }
+                
+                if !alreadyExists{
+                    self.addData()
+                } else{
+                    print("Note Already exists")
+                }
+            }catch{
+                print(error)
             }
             
-            if !alreadyExists{
-                self.addData()
-            } else{
-                print("Note Already exists")
-            }
-        }catch{
-            print(error)
+        }else{
+            
+            addData()
+            
         }
 
         
     }
     
     func addData(){
-        let newNote = NSEntityDescription.insertNewObject(forEntityName: "Notes", into: context!)
-        newNote.setValue(txtTitle.text!, forKey: "title")
-        newNote.setValue(txtDescription.text!, forKey: "descp")
-        newNote.setValue(categoryName!, forKey: "category")
-        newNote.setValue(Date(), forKey: "dateTime")
+        
+        if isNewNote{
+        newNote = NSEntityDescription.insertNewObject(forEntityName: "Notes", into: context!)
+        }
+        
+        newNote!.setValue(txtTitle.text!, forKey: "title")
+        newNote!.setValue(txtDescription.text!, forKey: "descp")
+        newNote!.setValue(categoryName!, forKey: "category")
+        
+       
+            
+        
+        let createdDate =  isNewNote ? Date() : (newNote?.value(forKey: "dateTime")! as! Date)
+    
+            
+        
+        
+        
+        newNote!.setValue(createdDate, forKey: "dateTime")
+        
+        
+        newNote!.setValue(catagoryTextField.text!, forKey: "category")
+        
+        updateCatagoryList()
+        
+        
         
         
         // save image to file
         saveImageToFile()
         
-        newNote.setValue(getFilePath("\(txtTitle.text)_img.txt"), forKey: "image")
+       
         
         saveData()
         print("note saved successfullys")
@@ -220,6 +253,40 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         }
     }
     
+    
+    func updateCatagoryList(){
+        
+        var catagoryPresent = false
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Categories")
+        request.returnsObjectsAsFaults = false
+        
+        // we find our data
+        do{
+            let results = try context?.fetch(request) as! [NSManagedObject]
+            
+            for r in results{
+                
+                if catagoryTextField.text! == (r.value(forKey: "catname") as! String) {
+                    catagoryPresent = true; break }
+                
+            }
+            
+            
+            
+        } catch{
+            print("Error2...\(error)")
+        }
+        
+        
+        if !catagoryPresent{
+            
+            let newFolder = NSEntityDescription.insertNewObject(forEntityName: "Categories", into: context!)
+                   newFolder.setValue(catagoryTextField.text!, forKey: "catname")
+                   saveData()
+            
+        }
+        
+    }
     
     /*
     func addNotetoCatagory(note: NSManagedObject){
