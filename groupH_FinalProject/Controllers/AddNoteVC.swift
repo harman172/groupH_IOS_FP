@@ -188,9 +188,17 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
                     }
                 }
                 
-                if !alreadyExists{
-                    self.addData()
-                    isNewNote = false
+                if !alreadyExists {
+                    
+                    if (txtTitle.text!.isEmpty || txtDescription.text.isEmpty || catagoryTextField.text!.isEmpty){// empty field}
+                    
+                       okAlert("Please fill all the details")
+                    
+                    }else{
+                        self.addData()
+                        isNewNote = false
+                    }
+                    
                 } else{
                     print("Note Already exists")
                     isNewNote = true
