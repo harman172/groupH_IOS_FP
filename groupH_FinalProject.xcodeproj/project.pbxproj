@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4499806A23DA240300C52B7A /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4499806923DA240300C52B7A /* MapVC.swift */; };
 		B51F4A2723D8187B005FB1C2 /* NotesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51F4A2623D8187B005FB1C2 /* NotesCell.swift */; };
 		B5781D1A23D3CB5B00AEAC0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5781D1923D3CB5B00AEAC0C /* AppDelegate.swift */; };
 		B5781D1C23D3CB5B00AEAC0C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5781D1B23D3CB5B00AEAC0C /* SceneDelegate.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4499806923DA240300C52B7A /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		B51F4A2623D8187B005FB1C2 /* NotesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesCell.swift; sourceTree = "<group>"; };
 		B5781D1623D3CB5B00AEAC0C /* groupH_FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = groupH_FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5781D1923D3CB5B00AEAC0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				B5FD11D123D7C3EF00D853A6 /* NotesTVC.swift */,
 				B5FD11D323D7C40B00D853A6 /* AddNoteVC.swift */,
 				B51F4A2623D8187B005FB1C2 /* NotesCell.swift */,
+				4499806923DA240300C52B7A /* MapVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -168,6 +171,7 @@
 				B5FD11D223D7C3EF00D853A6 /* NotesTVC.swift in Sources */,
 				B5781D2423D3CB5B00AEAC0C /* groupH_FinalProject.xcdatamodeld in Sources */,
 				B5781D1C23D3CB5B00AEAC0C /* SceneDelegate.swift in Sources */,
+				4499806A23DA240300C52B7A /* MapVC.swift in Sources */,
 				B5FD11D423D7C40B00D853A6 /* AddNoteVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
