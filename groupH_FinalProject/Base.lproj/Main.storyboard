@@ -170,15 +170,12 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dafaultNoteImage" translatesAutoresizingMaskIntoConstraints="NO" id="uOw-Uz-p6P">
-                                <rect key="frame" x="112" y="366" width="150" height="150"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.65486037730000002" green="0.66697132589999997" blue="0.64705717559999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ySI-v7-efo">
-                                <rect key="frame" x="135" y="594" width="105" height="53"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ySI-v7-efo">
+                                <rect key="frame" x="0.0" y="637" width="414" height="50"/>
                                 <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="08h-bd-eAV"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="34"/>
                                 <state key="normal" title="Save">
                                     <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -223,11 +220,30 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dafaultNoteImage" translatesAutoresizingMaskIntoConstraints="NO" id="uOw-Uz-p6P">
+                                <rect key="frame" x="91" y="411" width="150" height="151"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.65486037730000002" green="0.66697132589999997" blue="0.64705717559999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.65789085128606473" green="0.66666668653488159" blue="0.65062659402920697" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="ySI-v7-efo" firstAttribute="leading" secondItem="Vnd-9c-aTq" secondAttribute="leading" id="MKT-Io-cfZ"/>
+                            <constraint firstItem="Vnd-9c-aTq" firstAttribute="trailing" secondItem="ySI-v7-efo" secondAttribute="trailing" id="WFR-Jw-Xmz"/>
+                            <constraint firstItem="Vnd-9c-aTq" firstAttribute="bottom" secondItem="ySI-v7-efo" secondAttribute="bottom" id="uaW-8K-NtT"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Vnd-9c-aTq"/>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="cAt-1A-G3K"/>
+                        <barButtonItem title="Map" id="A2J-EW-Rps">
+                            <connections>
+                                <segue destination="xBe-Jf-JMA" kind="show" id="SWz-jG-jXz"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" id="UKO-f6-eqR"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="catagoryTextField" destination="ayU-ZT-X7a" id="V6c-mt-Or0"/>
                         <outlet property="noteImageView" destination="uOw-Uz-p6P" id="HGZ-cO-Tsi"/>
@@ -240,6 +256,54 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HMK-8A-sRw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2063.768115942029" y="106.79347826086958"/>
+        </scene>
+        <!--MapVC-->
+        <scene sceneID="veI-Fr-6gv">
+            <objects>
+                <viewController id="xBe-Jf-JMA" customClass="MapVC" customModule="groupH_FinalProject" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KZ4-Op-nzS">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="MOF-8k-V3j">
+                                <rect key="frame" x="0.0" y="44" width="413" height="643"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oHk-jt-vPe">
+                                <rect key="frame" x="344" y="617" width="60" height="60"/>
+                                <color key="backgroundColor" red="0.72550016640000003" green="0.72547239070000002" blue="0.72549122570000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="0MB-RZ-XnL"/>
+                                    <constraint firstAttribute="width" constant="60" id="o7n-k9-fIA"/>
+                                </constraints>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="locationButton">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="34"/>
+                                </state>
+                                <connections>
+                                    <action selector="navButtonPressed:" destination="xBe-Jf-JMA" eventType="touchUpInside" id="K0I-Wt-Mx9"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="MOF-8k-V3j" firstAttribute="leading" secondItem="f81-ei-aDn" secondAttribute="leading" id="82f-1F-kJc"/>
+                            <constraint firstItem="f81-ei-aDn" firstAttribute="bottom" secondItem="oHk-jt-vPe" secondAttribute="bottom" constant="10" id="GjO-mQ-lgM"/>
+                            <constraint firstItem="MOF-8k-V3j" firstAttribute="top" secondItem="f81-ei-aDn" secondAttribute="top" id="Ica-Ma-hfS"/>
+                            <constraint firstItem="f81-ei-aDn" firstAttribute="trailing" secondItem="oHk-jt-vPe" secondAttribute="trailing" constant="10" id="Yeu-1h-V0J"/>
+                            <constraint firstItem="f81-ei-aDn" firstAttribute="trailing" secondItem="MOF-8k-V3j" secondAttribute="trailing" constant="1" id="fFe-Cm-Wzj"/>
+                            <constraint firstItem="f81-ei-aDn" firstAttribute="bottom" secondItem="MOF-8k-V3j" secondAttribute="bottom" id="mmU-nM-4bF"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="f81-ei-aDn"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="goe-yx-rHC"/>
+                    <connections>
+                        <outlet property="mapView" destination="MOF-8k-V3j" id="Qmq-4H-FRO"/>
+                        <outlet property="navigationButton" destination="oHk-jt-vPe" id="mwA-c9-5YO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vN0-pi-uqH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2967" y="113"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="K2Y-k8-sNO">
@@ -264,6 +328,7 @@
     </scenes>
     <resources>
         <image name="dafaultNoteImage" width="512" height="512"/>
+        <image name="locationButton" width="67" height="67"/>
         <image name="mic.fill" catalog="system" width="54" height="64"/>
         <image name="play.fill" catalog="system" width="58" height="64"/>
         <image name="plus.circle.fill" catalog="system" width="64" height="60"/>
