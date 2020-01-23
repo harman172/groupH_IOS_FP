@@ -69,9 +69,9 @@ class MapVC: UIViewController , MKMapViewDelegate, CLLocationManagerDelegate  {
         
         mapView.setRegion(region, animated: true)
         
-        let annotation = MKPointAnnotation()
+        let annotation = CustomAnnotations(coordinate: location, identifier: "pinAnnotation")
         
-        annotation.coordinate = location
+//        annotation.coordinate = location
         mapView.addAnnotation(annotation)
     }
     
@@ -168,7 +168,16 @@ class MapVC: UIViewController , MKMapViewDelegate, CLLocationManagerDelegate  {
     
     
     
-    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation{
+            return nil
+        }
+        
+        let ann = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pinAnnotation")
+        
+        return ann
+        
+    }
     
     
     

@@ -19,6 +19,7 @@
 		B5781D3223D3CD6500AEAC0C /* CategoriesTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5781D3123D3CD6500AEAC0C /* CategoriesTVC.swift */; };
 		B5FD11D223D7C3EF00D853A6 /* NotesTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FD11D123D7C3EF00D853A6 /* NotesTVC.swift */; };
 		B5FD11D423D7C40B00D853A6 /* AddNoteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FD11D323D7C40B00D853A6 /* AddNoteVC.swift */; };
+		F2D0219C23DA57DF007B3E22 /* CustomAnnotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D0219B23DA57DF007B3E22 /* CustomAnnotations.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		B5781D3123D3CD6500AEAC0C /* CategoriesTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesTVC.swift; sourceTree = "<group>"; };
 		B5FD11D123D7C3EF00D853A6 /* NotesTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTVC.swift; sourceTree = "<group>"; };
 		B5FD11D323D7C40B00D853A6 /* AddNoteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteVC.swift; sourceTree = "<group>"; };
+		F2D0219B23DA57DF007B3E22 /* CustomAnnotations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomAnnotations.swift; path = groupH_FinalProject/CustomAnnotations.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +54,7 @@
 		4499806B23DA568000C52B7A /* VIew */ = {
 			isa = PBXGroup;
 			children = (
+				F2D0219B23DA57DF007B3E22 /* CustomAnnotations.swift */,
 			);
 			path = VIew;
 			sourceTree = "<group>";
@@ -177,6 +180,7 @@
 				B5781D1A23D3CB5B00AEAC0C /* AppDelegate.swift in Sources */,
 				B51F4A2723D8187B005FB1C2 /* NotesCell.swift in Sources */,
 				B5FD11D223D7C3EF00D853A6 /* NotesTVC.swift in Sources */,
+				F2D0219C23DA57DF007B3E22 /* CustomAnnotations.swift in Sources */,
 				B5781D2423D3CB5B00AEAC0C /* groupH_FinalProject.xcdatamodeld in Sources */,
 				B5781D1C23D3CB5B00AEAC0C /* SceneDelegate.swift in Sources */,
 				4499806A23DA240300C52B7A /* MapVC.swift in Sources */,
