@@ -9,14 +9,19 @@
 import UIKit
 import CoreData
 
-class CategoriesTVC: UITableViewController {
+class CategoriesTVC: UITableViewController, UISearchBarDelegate{
 
     var context: NSManagedObjectContext?
     var folders: [NSManagedObject]?
     
+    @IBOutlet weak var mySearchBar: UISearchBar!
+    
+    var carArray: [String]?
+    var isSearching = false
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        mySearchBar.delegate = self
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         context = appDelegate.persistentContainer.viewContext
         
@@ -40,7 +45,7 @@ class CategoriesTVC: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return folders?.count ?? 0
+        return !isSearching ? (folders?.count ?? 0) : (carArray?.count ?? 0)
     }
 
     
@@ -48,7 +53,13 @@ class CategoriesTVC: UITableViewController {
         // Configure the cell...
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "folderCell"){
-            cell.textLabel?.text = folders![indexPath.row].value(forKey: "catname") as! String
+            
+            
+            
+            cell.textLabel?.text = !isSearching ? folders![indexPath.row].value(forKey: "catname") as! String : carArray![indexPath.row]
+            
+            
+            
             return cell
         }
 
@@ -58,6 +69,56 @@ class CategoriesTVC: UITableViewController {
     }
     
 
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        
+//        let Crequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Categories")
+//        Crequest.returnsObjectsAsFaults = false
+       
+        let Nreq = NSFetchRequest<NSFetchRequestResult>(entityName: "Notes")
+        Nreq.returnsObjectsAsFaults = false
+        
+        
+        if !searchText.isEmpty{
+            
+            //Crequest.predicate = NSPredicate(format: "catname contains[c] %@", searchText)
+            Nreq.predicate = NSPredicate(format: "title contains[c] %@", searchText)
+            
+            do{
+                
+                carArray = []
+                
+                let noteObjects = try context?.fetch(Nreq) as! [NSManagedObject]
+                
+                for n in noteObjects{
+                    
+                    let cat = n.value(forKey: "category") as! String
+                    
+                    if (!(carArray?.contains(cat))!){
+                        carArray?.append(cat)
+                        
+                    }
+                    
+                    
+                }
+                isSearching = true
+                tableView.reloadData()
+                
+                
+            }catch{
+                print("error")
+            }
+            
+            
+
+        
+        }else{
+            isSearching = false
+            loadData() // load all data
+        }
+        
+    }
+    
     
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -73,11 +134,37 @@ class CategoriesTVC: UITableViewController {
             
             
             // to remove all note of that catagory from core data
-            deleteNotesFromCategory(folders![indexPath.row].value(forKey: "catname") as! String)
+            
             
             // to remove catogory
+            if !isSearching{
+            deleteNotesFromCategory(folders![indexPath.row].value(forKey: "catname") as! String)
             self.context!.delete(self.folders![indexPath.row])
-            self.folders?.remove(at: indexPath.row)
+                self.folders?.remove(at: indexPath.row)
+                
+            }else{
+                
+                
+                deleteNotesFromCategory(carArray![indexPath.row])
+                
+                // delete catagory from core
+                let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Categories")
+                request.returnsObjectsAsFaults = false
+                request.predicate = NSPredicate(format: "catname = %@", carArray![indexPath.row])
+                // we find our data
+                do{
+                    let results = try context?.fetch(request) as! [NSManagedObject]
+                    context?.delete(results[0])
+                        
+                    
+                } catch{
+                    print("Error2...\(error)")
+                }
+                
+                carArray!.remove(at: indexPath.row)
+                
+            }
+            
             
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
