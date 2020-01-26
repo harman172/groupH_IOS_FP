@@ -14,7 +14,7 @@ import CoreLocation
 
 
 
-class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate{
+class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate , AVAudioRecorderDelegate{
 
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var txtTitle: UITextField!
@@ -48,7 +48,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         catagoryTextField.text = categoryName!
         recordButton.layer.cornerRadius = 30
         playButton.layer.cornerRadius = 30
-        
+        txtDescription.delegate = self
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         context = appDelegate.persistentContainer.viewContext
         
@@ -474,17 +474,18 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
 
 
 }
-extension AddNoteVC: AVAudioRecorderDelegate {
+extension AddNoteVC: UITextViewDelegate {
     
-    func path() -> URL {
-        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-               let docDirectory = path[0]
-               
-               return docDirectory
-        
-        
-        
+    
+   func textViewDidBeginEditing(_ textView: UITextView) {
+        txtDescription.text = ""
+    txtDescription.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+    
+    
     }
+    
+    
+    
     
     
     
