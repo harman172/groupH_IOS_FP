@@ -484,7 +484,10 @@ extension AddNoteVC: UITextViewDelegate {
     
     
    func textViewDidBeginEditing(_ textView: UITextView) {
-        txtDescription.text = ""
+    if txtDescription.text == "Write note...."{
+         txtDescription.text = ""
+    }
+       
     txtDescription.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     
     
