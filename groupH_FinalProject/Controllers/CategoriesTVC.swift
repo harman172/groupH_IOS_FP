@@ -251,11 +251,23 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
         cancelAction.setValue(UIColor.brown, forKey: "titleTextColor")
         
         let addItemAction = UIAlertAction(title: "Add", style: .default) { (action) in
-            let textField = alertController.textFields![0]
-            let folderName = textField.text!
+           let textField = alertController.textFields![0]
             
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Categories")
-            request.returnsObjectsAsFaults = false
+            if textField.text == "" || textField.text!.trimmingCharacters(in: .whitespaces).isEmpty{
+                
+               
+                
+                self.alert(title: "Empty Text Fields", message: "Please give a name to category")
+                
+                
+                
+            }
+            else{
+                      let folderName = textField.text!
+                      
+                      let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Categories")
+                      request.returnsObjectsAsFaults = false
+            
             
             do{
                 let results = try self.context!.fetch(request)
@@ -273,7 +285,7 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
                 if !alreadyExists{
                     self.addData(name: folderName)
                 } else{
-                    print("Folder Already exists")
+                    self.alert(title: "Folder already exsists", message: "Please try other name")
                 }
             }catch{
                 print(error)
@@ -281,6 +293,7 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
             
             self.loadData()
             self.tableView.reloadData()
+            }
         }
         addItemAction.setValue(UIColor.black, forKey: "titleTextColor")
                 
@@ -294,6 +307,18 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
         //        })
         self.present(alertController, animated: false, completion: nil)
     }
+    
+    func alert(title: String , message:String){
+        
+        let alertAction = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alertAction.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        
+        self.present(alertAction, animated: true, completion: nil)
+    }
+    
+    
+    
 
     func loadData(){
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Categories")
