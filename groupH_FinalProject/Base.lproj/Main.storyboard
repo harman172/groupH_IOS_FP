@@ -21,7 +21,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="folderCell" textLabel="YFJ-hK-EYc" rowHeight="51" style="IBUITableViewCellStyleDefault" id="VND-2g-4jl">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="folderCell" textLabel="YFJ-hK-EYc" detailTextLabel="So4-Sp-u3g" rowHeight="51" style="IBUITableViewCellStyleValue1" id="VND-2g-4jl">
                                 <rect key="frame" x="0.0" y="72" width="414" height="51"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VND-2g-4jl" id="jPf-pw-Za8">
@@ -29,10 +29,17 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YFJ-hK-EYc">
-                                            <rect key="frame" x="20" y="0.0" width="374" height="51"/>
+                                            <rect key="frame" x="20.000000000000004" y="15.999999999999998" width="33.333333333333336" height="20.333333333333332"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="So4-Sp-u3g">
+                                            <rect key="frame" x="354.66666666666669" y="18" width="39.333333333333336" height="18"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -345,16 +352,34 @@
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oHk-jt-vPe">
                                 <rect key="frame" x="344" y="617" width="60" height="60"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="0MB-RZ-XnL"/>
                                     <constraint firstAttribute="width" constant="60" id="o7n-k9-fIA"/>
                                 </constraints>
-                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="locationButton">
+                                <color key="tintColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" image="paperplane.fill" catalog="system">
+                                    <color key="titleColor" red="0.53333333329999999" green="0.27058823529999998" blue="0.1960784314" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="titleShadowColor" red="0.53333333329999999" green="0.27058823529999998" blue="0.1960784314" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="34"/>
                                 </state>
                                 <connections>
                                     <action selector="navButtonPressed:" destination="xBe-Jf-JMA" eventType="touchUpInside" id="K0I-Wt-Mx9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UYP-75-3rg">
+                                <rect key="frame" x="344" y="537" width="60" height="60"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="jE0-Uz-ajW"/>
+                                    <constraint firstAttribute="height" constant="60" id="wkY-w7-5qM"/>
+                                </constraints>
+                                <color key="tintColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" image="stop.circle" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium" weight="medium"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnShowRoute:" destination="xBe-Jf-JMA" eventType="touchUpInside" id="iVY-aE-yRu"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -363,8 +388,10 @@
                             <constraint firstItem="MOF-8k-V3j" firstAttribute="leading" secondItem="f81-ei-aDn" secondAttribute="leading" id="82f-1F-kJc"/>
                             <constraint firstItem="f81-ei-aDn" firstAttribute="bottom" secondItem="oHk-jt-vPe" secondAttribute="bottom" constant="10" id="GjO-mQ-lgM"/>
                             <constraint firstItem="MOF-8k-V3j" firstAttribute="top" secondItem="f81-ei-aDn" secondAttribute="top" id="Ica-Ma-hfS"/>
+                            <constraint firstItem="oHk-jt-vPe" firstAttribute="top" secondItem="UYP-75-3rg" secondAttribute="bottom" constant="20" id="XFa-ty-vTi"/>
                             <constraint firstItem="f81-ei-aDn" firstAttribute="trailing" secondItem="oHk-jt-vPe" secondAttribute="trailing" constant="10" id="Yeu-1h-V0J"/>
                             <constraint firstItem="f81-ei-aDn" firstAttribute="trailing" secondItem="MOF-8k-V3j" secondAttribute="trailing" constant="1" id="fFe-Cm-Wzj"/>
+                            <constraint firstItem="f81-ei-aDn" firstAttribute="trailing" secondItem="UYP-75-3rg" secondAttribute="trailing" constant="10" id="lFF-P1-fuF"/>
                             <constraint firstItem="f81-ei-aDn" firstAttribute="bottom" secondItem="MOF-8k-V3j" secondAttribute="bottom" id="mmU-nM-4bF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="f81-ei-aDn"/>
@@ -377,7 +404,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vN0-pi-uqH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2906" y="107"/>
+            <point key="canvasLocation" x="2905.7971014492755" y="106.79347826086958"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="K2Y-k8-sNO">
@@ -402,11 +429,12 @@
     </scenes>
     <resources>
         <image name="dafaultNoteImage" width="512" height="512"/>
-        <image name="locationButton" width="67" height="67"/>
         <image name="mic.fill" catalog="system" width="54" height="64"/>
         <image name="paperplane" catalog="system" width="64" height="60"/>
+        <image name="paperplane.fill" catalog="system" width="64" height="60"/>
         <image name="play.fill" catalog="system" width="58" height="64"/>
         <image name="plus.circle.fill" catalog="system" width="64" height="60"/>
+        <image name="stop.circle" catalog="system" width="64" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="XLh-hs-geV"/>

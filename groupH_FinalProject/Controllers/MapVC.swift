@@ -37,22 +37,14 @@ class MapVC: UIViewController , MKMapViewDelegate, CLLocationManagerDelegate  {
        
     }
     
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        
-        
-        
-        
+    @IBAction func btnShowRoute(_ sender: UIButton) {
+        let dest = CLLocationCoordinate2D(latitude: segueLatitude, longitude: segueLongitude)
+        getRoute(destination: dest)
     }
     
-
     @IBAction func navButtonPressed(_ sender: UIButton) {
     
         let dest = CLLocationCoordinate2D(latitude: segueLatitude, longitude: segueLongitude)
-        
-        
-//      getRoute(destination: dest)
         getDirection(dest: dest)
       
     }
@@ -179,7 +171,12 @@ class MapVC: UIViewController , MKMapViewDelegate, CLLocationManagerDelegate  {
         
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.isToolbarHidden = true
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.isToolbarHidden = false
+    }
     
 
 }

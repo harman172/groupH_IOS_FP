@@ -13,6 +13,7 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
 
     var context: NSManagedObjectContext?
     var folders: [NSManagedObject]?
+    var notesCount: [Int]?
     
     @IBOutlet weak var mySearchBar: UISearchBar!
     
@@ -31,6 +32,7 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.5333333333, green: 0.2705882353, blue: 0.1960784314, alpha: 1)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -54,11 +56,9 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "folderCell"){
             
-            
-            
             cell.textLabel?.text = !isSearching ? folders![indexPath.row].value(forKey: "catname") as! String : carArray![indexPath.row]
-            
-            
+            let count = !isSearching ? getNotesCountInFolder(categoryName: folders![indexPath.row].value(forKey: "catname") as! String) : getNotesCountInFolder(categoryName: carArray![indexPath.row])
+            cell.detailTextLabel?.text = "\(count)"
             
             return cell
         }
@@ -68,6 +68,28 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
         return UITableViewCell()
     }
     
+    func getNotesCountInFolder(categoryName: String) -> Int{
+        var count = 0
+        
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Notes")
+         request.predicate = NSPredicate(format: "category = %@", categoryName)
+         
+         do{
+             let results = try context!.fetch(request)
+             if results is [NSManagedObject]{
+//                 if results.count > 0{
+                print("Finding count......")
+                    count = results.count
+//                 }
+             }
+                 
+//             tableView.reloadData()
+         }catch{
+             print(error)
+         }
+        return count
+    }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         

@@ -24,6 +24,7 @@ class NotesTVC: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.5333333333, green: 0.2705882353, blue: 0.1960784314, alpha: 1)
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         context = appDelegate.persistentContainer.viewContext
