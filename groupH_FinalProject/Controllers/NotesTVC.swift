@@ -162,6 +162,9 @@ class NotesTVC: UITableViewController {
        }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        
+        
         loadData()
         
     }

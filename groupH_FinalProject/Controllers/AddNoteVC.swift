@@ -21,6 +21,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var txtDescription: UITextView!
     
+    @IBOutlet weak var icMap: UIBarButtonItem!
     @IBOutlet weak var catagoryTextField: UITextField!
     @IBOutlet weak var noteImageView: UIImageView!
     
@@ -58,8 +59,11 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             // show all data to user
             
             recordingSession = AVAudioSession.sharedInstance()
+            icMap.isEnabled = true
+            navigationItem.title = "Edit note"
         }else{
             playButton.isHidden = true
+            icMap.isEnabled = false
         }
         
 
@@ -219,8 +223,6 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             addData()
             
         }
-
-        
     }
     
     func addData(){
@@ -251,13 +253,17 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
         
         okAlert(isNewNote ? "Note Saved" : "Note Updated")
+//        self.navigationController?.popViewController(animated: true)
     }
     
     
     func okAlert(_ msg: String){
         
         let AC = UIAlertController(title: msg, message: nil, preferredStyle: .alert)
-        AC.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+//        AC.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+        AC.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action) in
+                self.navigationController?.popViewController(animated: true)
+            }))
         self.present(AC, animated: true)
         
     }
@@ -484,7 +490,12 @@ extension AddNoteVC: UITextViewDelegate {
     
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.isToolbarHidden = true
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.isToolbarHidden = false
+    }
     
     
     
