@@ -24,6 +24,7 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
         super.viewDidLoad()
         
         mySearchBar.delegate = self
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         context = appDelegate.persistentContainer.viewContext
         
@@ -37,7 +38,6 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
         loadData()
 
     }
-    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -233,6 +233,15 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
             loadData() // load all data
         }
         
+    }
+    
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        mySearchBar.resignFirstResponder()
+        mySearchBar.text = ""
+        isSearching = false
+        loadData()
+        tableView.reloadData()
     }
     
     func getNotesCountInFolder(categoryName: String) -> Int{

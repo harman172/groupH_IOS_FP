@@ -68,6 +68,9 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             icMap.isEnabled = false
         }
         
+        let hideKeyboard = UITapGestureRecognizer(target: self, action: #selector(onTapped))
+        view.addGestureRecognizer(hideKeyboard)
+        
         // tap gesture for seklecting image
         let tapG = UITapGestureRecognizer(target: self, action: #selector(choosePhoto))
         noteImageView.addGestureRecognizer(tapG)
@@ -77,6 +80,12 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         
+    }
+    
+    @objc func onTapped(){
+        txtTitle.resignFirstResponder()
+        txtDescription.resignFirstResponder()
+        catagoryTextField.resignFirstResponder()
     }
     
     //get user's current location
