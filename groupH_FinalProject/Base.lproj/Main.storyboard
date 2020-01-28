@@ -201,7 +201,9 @@
                                         <rect key="frame" x="0.0" y="94" width="374" height="180"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="180" id="TSY-R0-z1i"/>
+                                            <constraint firstAttribute="height" constant="180" id="TSY-R0-z1i">
+                                                <variation key="heightClass=regular-widthClass=regular" constant="80"/>
+                                            </constraint>
                                         </constraints>
                                         <color key="textColor" red="0.65789085130000002" green="0.66666668650000005" blue="0.650626594" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
@@ -303,16 +305,26 @@
                         </subviews>
                         <color key="backgroundColor" red="0.83563820420000001" green="0.87059170009999998" blue="0.86970013010000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="28E-BL-k9N" firstAttribute="leading" secondItem="Vnd-9c-aTq" secondAttribute="leading" constant="20" id="4vt-nk-3ae"/>
+                            <constraint firstItem="28E-BL-k9N" firstAttribute="leading" secondItem="Vnd-9c-aTq" secondAttribute="leading" constant="20" id="4vt-nk-3ae">
+                                <variation key="heightClass=regular-widthClass=regular" constant="100"/>
+                            </constraint>
                             <constraint firstItem="HDj-pK-xpZ" firstAttribute="top" secondItem="Vnd-9c-aTq" secondAttribute="top" constant="30" id="8Ul-jg-VMD"/>
                             <constraint firstItem="HDj-pK-xpZ" firstAttribute="centerX" secondItem="MB1-1l-03b" secondAttribute="centerX" id="Lki-6Q-JCA"/>
-                            <constraint firstItem="Vnd-9c-aTq" firstAttribute="trailing" secondItem="HDj-pK-xpZ" secondAttribute="trailing" constant="20" id="NR4-7k-x0J"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="ySI-v7-efo" secondAttribute="trailing" id="RIn-by-dmk"/>
+                            <constraint firstItem="Vnd-9c-aTq" firstAttribute="trailing" secondItem="HDj-pK-xpZ" secondAttribute="trailing" constant="20" id="NR4-7k-x0J">
+                                <variation key="heightClass=regular-widthClass=regular" constant="100"/>
+                            </constraint>
+                            <constraint firstAttribute="trailingMargin" secondItem="ySI-v7-efo" secondAttribute="trailing" id="RIn-by-dmk">
+                                <variation key="heightClass=regular-widthClass=regular" constant="0.0"/>
+                            </constraint>
                             <constraint firstAttribute="bottomMargin" secondItem="ySI-v7-efo" secondAttribute="bottom" constant="10" id="SRo-AK-nta"/>
                             <constraint firstItem="28E-BL-k9N" firstAttribute="top" secondItem="HDj-pK-xpZ" secondAttribute="bottom" id="fnR-Dc-Q51"/>
-                            <constraint firstItem="ySI-v7-efo" firstAttribute="leading" secondItem="MB1-1l-03b" secondAttribute="leadingMargin" id="kdH-ld-nj8"/>
+                            <constraint firstItem="ySI-v7-efo" firstAttribute="leading" secondItem="MB1-1l-03b" secondAttribute="leadingMargin" id="kdH-ld-nj8">
+                                <variation key="heightClass=regular-widthClass=regular" constant="100"/>
+                            </constraint>
                             <constraint firstItem="ySI-v7-efo" firstAttribute="top" secondItem="28E-BL-k9N" secondAttribute="bottom" constant="26" id="lUs-03-94U"/>
-                            <constraint firstItem="HDj-pK-xpZ" firstAttribute="leading" secondItem="Vnd-9c-aTq" secondAttribute="leading" constant="20" id="wy3-P6-EhL"/>
+                            <constraint firstItem="HDj-pK-xpZ" firstAttribute="leading" secondItem="Vnd-9c-aTq" secondAttribute="leading" constant="20" id="wy3-P6-EhL">
+                                <variation key="heightClass=regular-widthClass=regular" constant="100"/>
+                            </constraint>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Vnd-9c-aTq"/>
                     </view>

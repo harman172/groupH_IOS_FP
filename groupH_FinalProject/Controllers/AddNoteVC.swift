@@ -11,11 +11,8 @@ import CoreData
 import AVFoundation
 import CoreLocation
 
-
-
-
 class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate , AVAudioRecorderDelegate{
-
+    
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var txtTitle: UITextField!
     @IBOutlet weak var playButton: UIButton!
@@ -40,28 +37,29 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     var isNewNote = true
     var isToSave = false
     var noteTitle: String?
-
+    
     var locationManager = CLLocationManager()
     var currentLocation = CLLocationCoordinate2D()
     let mainColor = #colorLiteral(red: 0.200271368, green: 0.4414930344, blue: 0.4522026777, alpha: 0.6665507277)
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-
+        
         catagoryTextField.text = categoryName!
         recordButton.layer.cornerRadius = 30
         playButton.layer.cornerRadius = 30
         txtDescription.delegate = self
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         context = appDelegate.persistentContainer.viewContext
         
+        //check if it is new note or note to be edit.
         if !isNewNote{
             playButton.isHidden = false
-            showClickedNoteData(noteTitle!)
+            showCurrentNote(noteTitle!)
             // show all data to user
-            
             recordingSession = AVAudioSession.sharedInstance()
             icMap.isEnabled = true
             navigationItem.title = "Edit note"
@@ -70,7 +68,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             icMap.isEnabled = false
         }
         
-        
+        // tap gesture for seklecting image
         let tapG = UITapGestureRecognizer(target: self, action: #selector(choosePhoto))
         noteImageView.addGestureRecognizer(tapG)
         
@@ -86,7 +84,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         currentLocation = manager.location!.coordinate
     }
     
-    func showClickedNoteData(_ title: String){
+    func showCurrentNote(_ title: String){
         
         txtTitle.isEnabled = false
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Notes")
@@ -98,16 +96,11 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             
             txtTitle.text = newNote!.value(forKey: "title") as! String
             txtDescription.text = newNote!.value(forKey: "descp") as! String
-            
-            //let imagePath = noteData.value(forKey: "image") as! String
-//            print("\(newNote!.value(forKey: "lat") as! Double)")
             noteImageView.image = UIImage(contentsOfFile: getFilePath("\(txtTitle.text)_img.txt"))
             
         }catch{
             print("unable to fech note-data")
         }
-        
-        
     }
     
     //MARK: Record and Play audio
@@ -118,24 +111,22 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             recordButton.backgroundColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
             
             if audioRecorder == nil {
-                       //self.records += 1
-                   
+                //self.records += 1
+                
                 let url = URL(fileURLWithPath: getFilePath("\(txtTitle.text)_aud.m4a"))
-                       let settings = [AVFormatIDKey : kAudioFormatAppleLossless , AVEncoderAudioQualityKey : AVAudioQuality.high.rawValue , AVEncoderBitRateKey : 320000 , AVNumberOfChannelsKey : 1 , AVSampleRateKey : 44100] as [String : Any]
-                       
-                       do {
-                         audioRecorder = try AVAudioRecorder(url: url, settings: settings)
-                           audioRecorder?.delegate = self
-                           audioRecorder?.record()
-                        isRecording = true
-                       } catch  {
-                           print(error)
-                       }
-                     
-                   }
-            
+                let settings = [AVFormatIDKey : kAudioFormatAppleLossless , AVEncoderAudioQualityKey : AVAudioQuality.high.rawValue , AVEncoderBitRateKey : 320000 , AVNumberOfChannelsKey : 1 , AVSampleRateKey : 44100] as [String : Any]
+                
+                do {
+                    audioRecorder = try AVAudioRecorder(url: url, settings: settings)
+                    audioRecorder?.delegate = self
+                    audioRecorder?.record()
+                    isRecording = true
+                } catch  {
+                    print(error)
+                }
+            }
         }
-        
+            
         else{
             audioRecorder?.stop()
             audioRecorder = nil
@@ -143,23 +134,20 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             isRecording = false
             playButton.isHidden = false
         }
-     
     }
     
     @IBAction func playButtonPressed(_ sender: UIButton) {
         
         if !isPlaying{
-        
-        do {
-            
-            let url = URL(fileURLWithPath: getFilePath("\(txtTitle.text)_aud.m4a"))
-            audioPlayer =  try AVAudioPlayer(contentsOf: url)
-            audioPlayer.delegate = self
-            audioPlayer.play()
-            playButton.setImage(UIImage(systemName: "stop.fill"), for: .normal)
-            isPlaying = true
-        } catch  {
-            print(error)
+            do {
+                let url = URL(fileURLWithPath: getFilePath("\(txtTitle.text)_aud.m4a"))
+                audioPlayer =  try AVAudioPlayer(contentsOf: url)
+                audioPlayer.delegate = self
+                audioPlayer.play()
+                playButton.setImage(UIImage(systemName: "stop.fill"), for: .normal)
+                isPlaying = true
+            } catch  {
+                print(error)
             }
         }else{
             
@@ -167,18 +155,13 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
             isPlaying = false
             
-            }
-      
-        
+        }
     }
     
     // MARK: AudioPlayer finish Playing
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        
-       playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
-        
-        
+        playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
     }
     
     @IBAction func btnSave(_ sender: UIButton) {
@@ -188,7 +171,6 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Notes")
             do{
                 let results = try self.context!.fetch(request)
-                
                 var alreadyExists = false
                 if results.count > 0{
                     for result in results as! [NSManagedObject]{
@@ -200,11 +182,10 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
                 }
                 
                 if !alreadyExists {
-                    
                     if (txtTitle.text!.isEmpty || txtDescription.text! == "Write note...." || txtDescription.text!.isEmpty || catagoryTextField.text!.isEmpty){
                         // empty field
-                       okAlert(title: "None of the fields can be empty!!")
-                    
+                        okAlert(title: "None of the fields can be empty!!")
+                        
                     }else{
                         self.addData()
                         isNewNote = false
@@ -228,7 +209,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     func addData(){
         
         if isNewNote{
-        newNote = NSEntityDescription.insertNewObject(forEntityName: "Notes", into: context!)
+            newNote = NSEntityDescription.insertNewObject(forEntityName: "Notes", into: context!)
             
         }
         
@@ -250,9 +231,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
         isToSave = true
         okAlert(title: isNewNote ? "Note saved successfully!!" : "Updated successfully!!")
-        
-//        okAlert(isNewNote ? "Note Saved" : "Note Updated")
-//        self.navigationController?.popViewController(animated: true)
+    
     }
     
     
@@ -261,7 +240,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
         let alertController = UIAlertController(title: "" , message: nil, preferredStyle: .alert)
         alertController.setValue(titleString, forKey: "attributedTitle")
-
+        
         let okAction = UIAlertAction(title: "Okay", style: .default) { (action) in
             if self.isToSave{
                 self.navigationController?.popViewController(animated: true)
@@ -277,14 +256,11 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     func saveData(){
         do{
-           try context!.save()
+            try context!.save()
         }catch{
             print(error)
         }
     }
-    
-    
-    
     
     func updateCatagoryList(){
         
@@ -305,9 +281,6 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
                 }
                 
             }
-            
-            
-            
         } catch{
             print("Error2...\(error)")
         }
@@ -316,77 +289,69 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         if !catagoryPresent{
             
             let newFolder = NSEntityDescription.insertNewObject(forEntityName: "Categories", into: context!)
-                   newFolder.setValue(catagoryTextField.text!, forKey: "catname")
-                   saveData()
+            newFolder.setValue(catagoryTextField.text!, forKey: "catname")
+            saveData()
             
         }
         
     }
     
     /*
-    func addNotetoCatagory(note: NSManagedObject){
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Folders")
-        request.predicate = NSPredicate(format: "name=%@", categoryName!)
-        
-
-        do{
-            
-            var notesArray: [NSManagedObject]?
-            var results = try context!.fetch(request) as! [NSManagedObject]
-            
-            if let notes = results[0].value(forKey: "notes") as? [NSManagedObject]{
-                notesArray = notes
-                notesArray?.append(note)
-            }
-            else{
-                notesArray = [note]
-            }
-            
-
-            
-           results[0].setValue(notesArray!, forKey: "notes")
-            
-            
-        }catch{
-            print(error)
-        }
-    }
-    */
+     func addNotetoCatagory(note: NSManagedObject){
+     let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Folders")
+     request.predicate = NSPredicate(format: "name=%@", categoryName!)
+     
+     
+     do{
+     
+     var notesArray: [NSManagedObject]?
+     var results = try context!.fetch(request) as! [NSManagedObject]
+     
+     if let notes = results[0].value(forKey: "notes") as? [NSManagedObject]{
+     notesArray = notes
+     notesArray?.append(note)
+     }
+     else{
+     notesArray = [note]
+     }
+     
+     
+     
+     results[0].setValue(notesArray!, forKey: "notes")
+     
+     
+     }catch{
+     print(error)
+     }
+     }
+     */
     // MARK: - file functions
     func getFilePath(_ fileName: String)->String{
-           
-           let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-           
         
-           if documentPath.count > 0 {
-               
-               let documentDirectory = documentPath[0]
-               
+        let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        
+        if documentPath.count > 0 {
+            
+            let documentDirectory = documentPath[0]
             let filePath = documentDirectory.appending(fileName)
-               
-               return filePath
-               
-           }
-           return ""
-       }
+            return filePath
+            
+        }
+        return ""
+    }
     
     
     
     func saveImageToFile(){
         
         let myimage = noteImageView.image
-        
         let imageData = myimage?.pngData()
-        
         let url = URL(fileURLWithPath: getFilePath("\(txtTitle.text)_img.txt"))
         
         // write to path
         do{
             try noteImageView.image?.pngData()!.write(to: url)
-            
-            
-            
-                //.write(toFile: filePath, atomically: true, encoding: .utf8)
+            //.write(toFile: filePath, atomically: true, encoding: .utf8)
         }catch{
             print(error)
         }
@@ -395,37 +360,37 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     // MARK: - Image functions
     
     @objc func choosePhoto(){
-
+        
         let imagePicker = UIImagePickerController()
-               imagePicker.delegate = self
-               
-               let action = UIAlertController(title: "Photo Source", message: "Choose a Source", preferredStyle: .actionSheet)
-               
-               action.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action:UIAlertAction) in
-                   
-                   if UIImagePickerController.isSourceTypeAvailable(.camera){
-                       imagePicker.sourceType = .camera
-                       self.present(imagePicker, animated: true, completion: nil)
-                   }
-                   else{
-                       self.cameraNotAvailable()
-                   }
-                  
-                   
-                   
-               }))
-               action.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { (action:UIAlertAction) in
-                   imagePicker.sourceType = .photoLibrary
-                        
-                   self.present(imagePicker, animated: true, completion: nil)
-                         
-                         
-                     }))
-               action.addAction(UIAlertAction(title: "cancel", style:.cancel, handler: nil ))
-               
-               self.present(action, animated: true, completion: nil)
-             
-               
+        imagePicker.delegate = self
+        
+        let action = UIAlertController(title: "Photo Source", message: "Choose a Source", preferredStyle: .actionSheet)
+        
+        action.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action:UIAlertAction) in
+            
+            if UIImagePickerController.isSourceTypeAvailable(.camera){
+                imagePicker.sourceType = .camera
+                self.present(imagePicker, animated: true, completion: nil)
+            }
+            else{
+                self.cameraNotAvailable()
+            }
+            
+            
+            
+        }))
+        action.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { (action:UIAlertAction) in
+            imagePicker.sourceType = .photoLibrary
+            
+            self.present(imagePicker, animated: true, completion: nil)
+            
+            
+        }))
+        action.addAction(UIAlertAction(title: "cancel", style:.cancel, handler: nil ))
+        
+        self.present(action, animated: true, completion: nil)
+        
+        
         
         
     }
@@ -440,8 +405,6 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     
     
-    
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
@@ -452,7 +415,6 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         //old note
         
         picker.dismiss(animated: true, completion: nil)
-        
         saveImageToFile()
         
     }
@@ -463,9 +425,9 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     
     
-
+    
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let dest = segue.destination as? MapVC{
@@ -474,21 +436,20 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             
         }
     }
-   
-
-
+    
+    
+    
 }
 extension AddNoteVC: UITextViewDelegate , AVAudioPlayerDelegate {
     
     
-   func textViewDidBeginEditing(_ textView: UITextView) {
-    if txtDescription.text == "Write note...."{
-         txtDescription.text = ""
-    }
-       
-    txtDescription.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-    
-    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if txtDescription.text == "Write note...."{
+            txtDescription.text = ""
+        }
+        txtDescription.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -497,9 +458,5 @@ extension AddNoteVC: UITextViewDelegate , AVAudioPlayerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.isToolbarHidden = false
     }
-    
-    
-    
-    
     
 }
