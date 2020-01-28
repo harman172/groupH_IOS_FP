@@ -214,18 +214,28 @@
                                         <rect key="frame" x="0.0" y="286" width="374" height="150"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add an image:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vvi-Nr-rNQ">
-                                                <rect key="frame" x="0.0" y="65" width="204" height="20.333333333333329"/>
+                                                <rect key="frame" x="0.0" y="65" width="116.33333333333333" height="20.333333333333329"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dafaultNoteImage" translatesAutoresizingMaskIntoConstraints="NO" id="uOw-Uz-p6P">
-                                                <rect key="frame" x="214" y="25" width="160" height="100"/>
+                                                <rect key="frame" x="126.33333333333334" y="25" width="160.00000000000003" height="100"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="100" id="85a-m7-OYg"/>
                                                     <constraint firstAttribute="width" constant="160" id="Xvg-i5-Kh2"/>
                                                 </constraints>
                                             </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ray-Zk-nso">
+                                                <rect key="frame" x="296.33333333333331" y="60.666666666666686" width="77.666666666666686" height="29"/>
+                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" image="rectangle.expand.vertical" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="KNI-z8-l6w" kind="show" id="lV0-Mx-FTD"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="150" id="KZl-oi-eOM"/>
@@ -422,6 +432,36 @@
             </objects>
             <point key="canvasLocation" x="2905.7971014492755" y="106.79347826086958"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="8cV-Ws-z85">
+            <objects>
+                <viewController id="KNI-z8-l6w" customClass="ViewController" customModule="groupH_FinalProject" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ClK-jw-88A">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lAp-Zl-TgI">
+                                <rect key="frame" x="0.0" y="44" width="414" height="643"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="lAp-Zl-TgI" firstAttribute="leading" secondItem="Cca-bF-zbU" secondAttribute="leading" id="OeW-Ky-vZt"/>
+                            <constraint firstItem="lAp-Zl-TgI" firstAttribute="top" secondItem="Cca-bF-zbU" secondAttribute="top" id="hPh-gI-RAh"/>
+                            <constraint firstItem="Cca-bF-zbU" firstAttribute="trailing" secondItem="lAp-Zl-TgI" secondAttribute="trailing" id="jBC-Qa-FAB"/>
+                            <constraint firstItem="Cca-bF-zbU" firstAttribute="bottom" secondItem="lAp-Zl-TgI" secondAttribute="bottom" id="n97-v1-nnI"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Cca-bF-zbU"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="bQD-Zp-8In"/>
+                    <connections>
+                        <outlet property="imageview" destination="lAp-Zl-TgI" id="QKQ-21-Jju"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cRj-Ap-UZx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2701" y="854"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="K2Y-k8-sNO">
             <objects>
@@ -457,6 +497,7 @@
         <image name="paperplane.fill" catalog="system" width="64" height="60"/>
         <image name="play.fill" catalog="system" width="58" height="64"/>
         <image name="plus.circle.fill" catalog="system" width="64" height="60"/>
+        <image name="rectangle.expand.vertical" catalog="system" width="64" height="60"/>
         <image name="stop.circle" catalog="system" width="64" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>

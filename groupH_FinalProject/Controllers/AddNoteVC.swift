@@ -66,6 +66,16 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         }else{
             playButton.isHidden = true
             icMap.isEnabled = false
+            AVAudioSession.sharedInstance().requestRecordPermission { (granted) in
+                
+                if !granted{
+                    
+                    
+                    
+                }
+                
+                
+            }
         }
         
         let hideKeyboard = UITapGestureRecognizer(target: self, action: #selector(onTapped))
@@ -305,35 +315,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
     }
     
-    /*
-     func addNotetoCatagory(note: NSManagedObject){
-     let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Folders")
-     request.predicate = NSPredicate(format: "name=%@", categoryName!)
-     
-     
-     do{
-     
-     var notesArray: [NSManagedObject]?
-     var results = try context!.fetch(request) as! [NSManagedObject]
-     
-     if let notes = results[0].value(forKey: "notes") as? [NSManagedObject]{
-     notesArray = notes
-     notesArray?.append(note)
-     }
-     else{
-     notesArray = [note]
-     }
-     
-     
-     
-     results[0].setValue(notesArray!, forKey: "notes")
-     
-     
-     }catch{
-     print(error)
-     }
-     }
-     */
+    
     // MARK: - file functions
     func getFilePath(_ fileName: String)->String{
         
@@ -444,6 +426,14 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             dest.segueLongitude = newNote?.value(forKey: "long") as! Double
             
         }
+        
+        
+        if let iv = segue.destination as? ViewController{
+            
+            iv.image = noteImageView.image
+            
+        }
+        
     }
     
     
