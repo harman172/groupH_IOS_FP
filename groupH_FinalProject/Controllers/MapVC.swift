@@ -31,8 +31,6 @@ class MapVC: UIViewController , MKMapViewDelegate, CLLocationManagerDelegate  {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
-        print(segueLongitude!)
-        print(segueLatitude!)
         showSavedLocation()
        
     }
@@ -80,9 +78,8 @@ class MapVC: UIViewController , MKMapViewDelegate, CLLocationManagerDelegate  {
         
         let source = CLLocationCoordinate2DMake((sourceCoordinates.latitude), (sourceCoordinates.longitude))
         let destination = CLLocationCoordinate2DMake(destination.latitude, destination.longitude)
-        
-        print(source)
-        print(destination)
+//        print(source)
+//        print(destination)
         
         
         let sourcePlacemark = MKPlacemark(coordinate: source)

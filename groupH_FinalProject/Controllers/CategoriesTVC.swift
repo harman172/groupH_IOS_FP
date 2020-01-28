@@ -19,6 +19,8 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
     
     var carArray: [String]?
     var isSearching = false
+    let mainColor = #colorLiteral(red: 0.200271368, green: 0.4414930344, blue: 0.4522026777, alpha: 0.6665507277)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,7 +34,8 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.rightBarButtonItem = self.editButtonItem
-        self.navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.5333333333, green: 0.2705882353, blue: 0.1960784314, alpha: 1)
+        self.navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.8857288957, green: 0.9869052768, blue: 0.9952554107, alpha: 1)
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -79,7 +82,6 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
              let results = try context!.fetch(request)
              if results is [NSManagedObject]{
 //                 if results.count > 0{
-                print("Finding count......")
                     count = results.count
 //                 }
              }
@@ -166,27 +168,24 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
                 
             }else{
                 
-                
                 deleteNotesFromCategory(carArray![indexPath.row])
                 
                 // delete catagory from core
                 let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Categories")
                 request.returnsObjectsAsFaults = false
                 request.predicate = NSPredicate(format: "catname = %@", carArray![indexPath.row])
+                
                 // we find our data
                 do{
                     let results = try context?.fetch(request) as! [NSManagedObject]
                     context?.delete(results[0])
                         
-                    
                 } catch{
                     print("Error2...\(error)")
                 }
-                
                 carArray!.remove(at: indexPath.row)
                 
             }
-            
             
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -221,7 +220,6 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
     */
     func deleteNotesFromCategory(_ catagoryName: String) {
         
-        
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Notes")
         request.predicate = NSPredicate(format: "category = %@", catagoryName)
         
@@ -241,32 +239,35 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
     }
     
     @IBAction func addNewCategory(_ sender: UIBarButtonItem) {
-        let alertController = UIAlertController(title: "New Folder", message: "Enter new folder", preferredStyle: .alert)
+//        let attributedString = NSAttributedString(string: "New Folder", attributes: [
+//            NSFontAttributeName : UIFont.systemFontOfSize(15), //your font here
+//            NSAttributedString.Key.foregroundColor : mainColor
+//        ])
+        let titleString = NSAttributedString(string: "New Folder", attributes: [NSAttributedString.Key.foregroundColor: mainColor, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)])
+        
+        let alertController = UIAlertController(title: "", message: "Enter new folder", preferredStyle: .alert)
+        alertController.setValue(titleString, forKey: "attributedTitle")
         
         alertController.addTextField { (txtNewFolder) in
             txtNewFolder.placeholder = "Enter category name..."
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        cancelAction.setValue(UIColor.brown, forKey: "titleTextColor")
+        
+        cancelAction.setValue(self.mainColor, forKey: "titleTextColor")
         
         let addItemAction = UIAlertAction(title: "Add", style: .default) { (action) in
            let textField = alertController.textFields![0]
             
             if textField.text == "" || textField.text!.trimmingCharacters(in: .whitespaces).isEmpty{
-                
-               
-                
-                self.alert(title: "Empty Text Fields", message: "Please give a name to category")
-                
-                
-                
+
+                self.okAlert(title: "Empty Textfield!!", message: "Please give a name to category")
+    
             }
             else{
-                      let folderName = textField.text!
-                      
-                      let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Categories")
-                      request.returnsObjectsAsFaults = false
+                let folderName = textField.text!
+                let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Categories")
+                request.returnsObjectsAsFaults = false
             
             
             do{
@@ -285,7 +286,8 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
                 if !alreadyExists{
                     self.addData(name: folderName)
                 } else{
-                    self.alert(title: "Folder already exsists", message: "Please try other name")
+//                    self.alert(title: "Folder already exsists", message: "Please try other name")
+                    self.okAlert(title: "Duplicate folder!", message: "Please try another folder name.")
                 }
             }catch{
                 print(error)
@@ -296,28 +298,21 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
             }
         }
         addItemAction.setValue(UIColor.black, forKey: "titleTextColor")
-                
-        //        alertController.view.tintColor = .black
-                
+                                
         alertController.addAction(cancelAction)
         alertController.addAction(addItemAction)
                 
-        //        self.present(alertController, animated: false, completion: {() -> Void in
-        //            alertController.view.tintColor = .black
-        //        })
         self.present(alertController, animated: false, completion: nil)
     }
     
-    func alert(title: String , message:String){
-        
-        let alertAction = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        alertAction.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        
-        self.present(alertAction, animated: true, completion: nil)
-    }
-    
-    
+//    func alert(title: String , message:String){
+//
+//        let alertAction = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//
+//        alertAction.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+//
+//        self.present(alertAction, animated: true, completion: nil)
+//    }
     
 
     func loadData(){
@@ -352,9 +347,13 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
     }
     
     func okAlert(title: String, message: String){
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let titleString = NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: mainColor, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20) ])
+        
+        let alertController = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        alertController.setValue(titleString, forKey: "attributedTitle")
+        
         let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        okAction.setValue(UIColor.brown, forKey: "titleTextColor")
+        okAction.setValue(mainColor, forKey: "titleTextColor")
         
         alertController.addAction(okAction)
         self.present(alertController, animated: false, completion: nil)

@@ -24,7 +24,7 @@ class NotesTVC: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.rightBarButtonItem = self.editButtonItem
-        self.navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.5333333333, green: 0.2705882353, blue: 0.1960784314, alpha: 1)
+        self.navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0.8857288957, green: 0.9869052768, blue: 0.9952554107, alpha: 1)
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         context = appDelegate.persistentContainer.viewContext
@@ -53,7 +53,6 @@ class NotesTVC: UITableViewController {
 //            print(notes![indexPath.row].value(forKey: "title") as! String)
         cell.setData(note: notes![indexPath.row])
         return cell
-        
         
 //        return UITableViewCell()
     }
@@ -163,8 +162,6 @@ class NotesTVC: UITableViewController {
        }
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        
         
         loadData()
         

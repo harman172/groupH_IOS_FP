@@ -48,7 +48,6 @@ class NotesCell: UITableViewCell {
     
     func getAddress(lat: Double, long: Double){
         var address = ""
-        print("...address...")
         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: lat, longitude: long)) { (placemarks, error) in
             if let error = error{
                 print(error)
