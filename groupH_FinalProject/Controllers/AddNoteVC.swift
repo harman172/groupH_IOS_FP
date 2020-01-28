@@ -160,6 +160,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             let url = URL(fileURLWithPath: getFilePath("\(txtTitle.text)_aud.m4a"))
             print("playing")
             audioPlayer =  try AVAudioPlayer(contentsOf: url)
+            audioPlayer.delegate = self
             audioPlayer.play()
             playButton.setImage(UIImage(systemName: "stop.fill"), for: .normal)
             isPlaying = true
@@ -175,8 +176,15 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             isPlaying = false
             
             }
+      
         
+    }
+    
+    // MARK: AudioPlayer finish Playing
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         
+       playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
         
         
     }
@@ -480,7 +488,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
 
 
 }
-extension AddNoteVC: UITextViewDelegate {
+extension AddNoteVC: UITextViewDelegate , AVAudioPlayerDelegate {
     
     
    func textViewDidBeginEditing(_ textView: UITextView) {
@@ -499,6 +507,7 @@ extension AddNoteVC: UITextViewDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.isToolbarHidden = false
     }
+    
     
     
     
