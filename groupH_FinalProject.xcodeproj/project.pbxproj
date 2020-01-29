@@ -19,6 +19,7 @@
 		B5781D3223D3CD6500AEAC0C /* CategoriesTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5781D3123D3CD6500AEAC0C /* CategoriesTVC.swift */; };
 		B5FD11D223D7C3EF00D853A6 /* NotesTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FD11D123D7C3EF00D853A6 /* NotesTVC.swift */; };
 		B5FD11D423D7C40B00D853A6 /* AddNoteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FD11D323D7C40B00D853A6 /* AddNoteVC.swift */; };
+		F25C27D623E0D32B00FB627A /* launch_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F25C27D523E0D32B00FB627A /* launch_icon.png */; };
 		F2D0219C23DA57DF007B3E22 /* CustomAnnotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D0219B23DA57DF007B3E22 /* CustomAnnotations.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		B5781D3123D3CD6500AEAC0C /* CategoriesTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesTVC.swift; sourceTree = "<group>"; };
 		B5FD11D123D7C3EF00D853A6 /* NotesTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTVC.swift; sourceTree = "<group>"; };
 		B5FD11D323D7C40B00D853A6 /* AddNoteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteVC.swift; sourceTree = "<group>"; };
+		F25C27D523E0D32B00FB627A /* launch_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_icon.png; sourceTree = "<group>"; };
 		F2D0219B23DA57DF007B3E22 /* CustomAnnotations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomAnnotations.swift; path = groupH_FinalProject/CustomAnnotations.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -81,6 +83,7 @@
 				4499806B23DA568000C52B7A /* VIew */,
 				B5781D3023D3CD2800AEAC0C /* Controllers */,
 				B5781D1923D3CB5B00AEAC0C /* AppDelegate.swift */,
+				F25C27D523E0D32B00FB627A /* launch_icon.png */,
 				B5781D1B23D3CB5B00AEAC0C /* SceneDelegate.swift */,
 				B5781D1D23D3CB5B00AEAC0C /* ViewController.swift */,
 				B5781D1F23D3CB5B00AEAC0C /* Main.storyboard */,
@@ -163,6 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5781D2923D3CB5D00AEAC0C /* LaunchScreen.storyboard in Resources */,
+				F25C27D623E0D32B00FB627A /* launch_icon.png in Resources */,
 				B5781D2623D3CB5D00AEAC0C /* Assets.xcassets in Resources */,
 				B5781D2123D3CB5B00AEAC0C /* Main.storyboard in Resources */,
 			);
@@ -329,13 +333,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 59Z5F95HT6;
+				DEVELOPMENT_TEAM = 4G88QX8MDZ;
 				INFOPLIST_FILE = groupH_FinalProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "harmankaur.groupH-FinalProject";
+				PRODUCT_BUNDLE_IDENTIFIER = "harmankaur.groupH-FinalProject333";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -347,13 +351,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 59Z5F95HT6;
+				DEVELOPMENT_TEAM = 4G88QX8MDZ;
 				INFOPLIST_FILE = groupH_FinalProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "harmankaur.groupH-FinalProject";
+				PRODUCT_BUNDLE_IDENTIFIER = "harmankaur.groupH-FinalProjecthh";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

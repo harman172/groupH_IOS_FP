@@ -13,6 +13,7 @@ import CoreLocation
 
 class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate , AVAudioRecorderDelegate{
     
+    @IBOutlet weak var lbl: UILabel!
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var txtTitle: UITextField!
     @IBOutlet weak var playButton: UIButton!
@@ -28,7 +29,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     var isRecording = false
     var recordingSession: AVAudioSession!
     var audioRecorder:AVAudioRecorder!
-    var audioPlayer:AVAudioPlayer!
+    var audioPlayer: AVAudioPlayer!
     var records = 0
     
     var context: NSManagedObjectContext?
@@ -52,6 +53,8 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         playButton.layer.cornerRadius = 30
         txtDescription.delegate = self
         
+         recordingSession = AVAudioSession.sharedInstance()
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         context = appDelegate.persistentContainer.viewContext
         
@@ -60,7 +63,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             playButton.isHidden = false
             showCurrentNote(noteTitle!)
             // show all data to user
-            recordingSession = AVAudioSession.sharedInstance()
+           
             icMap.isEnabled = true
             navigationItem.title = "Edit note"
         }else{
@@ -90,6 +93,15 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         
+//        recordingSession = AVAudioSession.sharedInstance()
+
+        do {
+            try recordingSession.setCategory(.playAndRecord, mode: .default)
+            try recordingSession.setActive(true)
+            
+        } catch {
+            // failed to record!
+        }
     }
     
     @objc func onTapped(){
@@ -115,7 +127,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             
             txtTitle.text = newNote!.value(forKey: "title") as! String
             txtDescription.text = newNote!.value(forKey: "descp") as! String
-            noteImageView.image = UIImage(contentsOfFile: getFilePath("\(txtTitle.text)_img.txt"))
+            noteImageView.image = UIImage(contentsOfFile: getFilePath("/\(txtTitle.text!)_img.txt"))
             
         }catch{
             print("unable to fech note-data")
@@ -132,7 +144,8 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             if audioRecorder == nil {
                 //self.records += 1
                 
-                let url = URL(fileURLWithPath: getFilePath("\(txtTitle.text)_aud.m4a"))
+                let url = URL(fileURLWithPath: getFilePath("/\(txtTitle.text!)_aud.m4a"))
+                print(url)
                 let settings = [AVFormatIDKey : kAudioFormatAppleLossless , AVEncoderAudioQualityKey : AVAudioQuality.high.rawValue , AVEncoderBitRateKey : 320000 , AVNumberOfChannelsKey : 1 , AVSampleRateKey : 44100] as [String : Any]
                 
                 do {
@@ -157,19 +170,26 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     @IBAction func playButtonPressed(_ sender: UIButton) {
         
+        lbl.text = "hey"
+        
         if !isPlaying{
             do {
-                let url = URL(fileURLWithPath: getFilePath("\(txtTitle.text)_aud.m4a"))
+                let url = URL(fileURLWithPath: getFilePath("/\(txtTitle.text!)_aud.m4a"))
+                print(url)
+                lbl.text = "not playing"
                 audioPlayer =  try AVAudioPlayer(contentsOf: url)
+                audioPlayer.prepareToPlay()
                 audioPlayer.delegate = self
                 audioPlayer.play()
+                print("play button press detected")
                 playButton.setImage(UIImage(systemName: "stop.fill"), for: .normal)
                 isPlaying = true
             } catch  {
                 print(error)
+                print("nnnnnnnnn")
             }
         }else{
-            
+            lbl.text = "playing"
             audioPlayer.stop()
             playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
             isPlaying = false
@@ -319,6 +339,8 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     // MARK: - file functions
     func getFilePath(_ fileName: String)->String{
         
+        
+        
         let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         
         if documentPath.count > 0 {
@@ -337,8 +359,9 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
         let myimage = noteImageView.image
         let imageData = myimage?.pngData()
-        let url = URL(fileURLWithPath: getFilePath("\(txtTitle.text)_img.txt"))
+        let url = URL(fileURLWithPath: getFilePath("/\(txtTitle.text!)_img.txt"))
         
+        print(url)
         // write to path
         do{
             try noteImageView.image?.pngData()!.write(to: url)
@@ -360,8 +383,27 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         action.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action:UIAlertAction) in
             
             if UIImagePickerController.isSourceTypeAvailable(.camera){
+                
                 imagePicker.sourceType = .camera
-                self.present(imagePicker, animated: true, completion: nil)
+
+                
+                switch AVCaptureDevice.authorizationStatus(for: .video) {
+                    case .authorized: // The user has previously granted access to the camera.
+                        self.present(imagePicker, animated: true, completion: nil)
+
+                    
+                    case .notDetermined: // The user has not yet been asked for camera access.
+                        AVCaptureDevice.requestAccess(for: .video) { granted in
+                            if granted {
+                                self.present(imagePicker, animated: true, completion: nil)
+
+                            }
+                        }
+                    default:
+                        return
+                }
+                
+                
             }
             else{
                 self.cameraNotAvailable()

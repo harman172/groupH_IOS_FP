@@ -14,7 +14,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="4wr-g4-mVi">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="separatorColor" red="0.71671035709999997" green="0.79826856199999996" blue="0.79902831689999998" alpha="0.66655072770000001" colorSpace="custom" customColorSpace="displayP3"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search Notes Here" showsCancelButton="YES" id="i1U-up-KB5">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
@@ -83,7 +83,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="73" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="OsZ-ZA-JNb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="noteCell" id="Wh3-5n-8B8" customClass="NotesCell" customModule="groupH_FinalProject" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="73"/>
@@ -354,6 +354,7 @@
                     <connections>
                         <outlet property="catagoryTextField" destination="ayU-ZT-X7a" id="V6c-mt-Or0"/>
                         <outlet property="icMap" destination="mvB-XB-LKx" id="BH9-By-feb"/>
+                        <outlet property="lbl" destination="MBd-Vx-usW" id="qBu-Wy-SL3"/>
                         <outlet property="noteImageView" destination="uOw-Uz-p6P" id="HGZ-cO-Tsi"/>
                         <outlet property="playButton" destination="lOX-nz-aMb" id="qQS-vz-6IF"/>
                         <outlet property="recordButton" destination="HYk-AT-tft" id="MBZ-vn-Nox"/>
