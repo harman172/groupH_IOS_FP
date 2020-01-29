@@ -145,7 +145,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
                 //self.records += 1
                 
                 let url = URL(fileURLWithPath: getFilePath("/\(txtTitle.text!)_aud.m4a"))
-                print(url)
+                
                 let settings = [AVFormatIDKey : kAudioFormatAppleLossless , AVEncoderAudioQualityKey : AVAudioQuality.high.rawValue , AVEncoderBitRateKey : 320000 , AVNumberOfChannelsKey : 1 , AVSampleRateKey : 44100] as [String : Any]
                 
                 do {
@@ -170,26 +170,25 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     @IBAction func playButtonPressed(_ sender: UIButton) {
         
-        lbl.text = "hey"
+        
         
         if !isPlaying{
             do {
                 let url = URL(fileURLWithPath: getFilePath("/\(txtTitle.text!)_aud.m4a"))
-                print(url)
-                lbl.text = "not playing"
+                
+                
                 audioPlayer =  try AVAudioPlayer(contentsOf: url)
                 audioPlayer.prepareToPlay()
                 audioPlayer.delegate = self
                 audioPlayer.play()
-                print("play button press detected")
                 playButton.setImage(UIImage(systemName: "stop.fill"), for: .normal)
                 isPlaying = true
             } catch  {
                 print(error)
-                print("nnnnnnnnn")
+               
             }
         }else{
-            lbl.text = "playing"
+            
             audioPlayer.stop()
             playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
             isPlaying = false
@@ -257,7 +256,7 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         newNote!.setValue(categoryName!, forKey: "category")
         let createdDate =  isNewNote ? Date() : (newNote?.value(forKey: "dateTime")! as! Date)
         newNote!.setValue(createdDate, forKey: "dateTime")
-        newNote!.setValue(catagoryTextField.text!, forKey: "category")
+        newNote!.setValue(catagoryTextField.text!.uppercased(), forKey: "category")
         let lat = isNewNote ? currentLocation.latitude : newNote?.value(forKey: "lat") as! Double
         newNote?.setValue(lat, forKey: "lat")
         let long = isNewNote ? currentLocation.longitude : newNote?.value(forKey: "long") as! Double
@@ -357,11 +356,10 @@ class AddNoteVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     func saveImageToFile(){
         
-        let myimage = noteImageView.image
-        let imageData = myimage?.pngData()
+        
         let url = URL(fileURLWithPath: getFilePath("/\(txtTitle.text!)_img.txt"))
         
-        print(url)
+        
         // write to path
         do{
             try noteImageView.image?.pngData()!.write(to: url)

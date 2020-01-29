@@ -164,7 +164,7 @@ class CategoriesTVC: UITableViewController, UISearchBarDelegate{
                 
             }
             else{
-                let folderName = textField.text!
+                let folderName = textField.text!.uppercased()
                 let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Categories")
                 request.returnsObjectsAsFaults = false
                 
